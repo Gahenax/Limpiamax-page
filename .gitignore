@@ -1,0 +1,8 @@
+node_modules/
+.next/
+out/
+limpiamax_key
+limpiamax_key.pub
+.env*
+.DS_Store
+*.log
