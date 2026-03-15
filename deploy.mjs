@@ -1,6 +1,5 @@
 import sftp from 'ssh2-sftp-client';
 import path from 'path';
-import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
