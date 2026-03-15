@@ -7,14 +7,27 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const config = {
-  host: 'r5l.550.myftpupload.com',
-  port: 22,
-  username: 'client_7099bf3c0_1103883',
-  password: 'WM4jgbMFQuQ0UM',
+  host: process.env.SFTP_HOST || 'r5l.550.myftpupload.com',
+  port: parseInt(process.env.SFTP_PORT || '22'),
+  username: process.env.SFTP_USER || 'client_7099bf3c0_1103883',
+  password: process.env.SFTP_PASSWORD || 'WM4jgbMFQuQ0UM',
+  privateKey: process.env.SFTP_KEY,
   retries: 3,
   retry_factor: 2,
   retry_minTimeout: 2000
 };
+
+// Si hay una clave privada en el archivo local y no viene por env, cargarla (para uso local)
+if (!config.privateKey && !config.password) {
+    try {
+        const keyPath = path.join(__dirname, 'limpiamax_key');
+        if (fs.existsSync(keyPath)) {
+            config.privateKey = fs.readFileSync(keyPath);
+        }
+    } catch {
+        console.log('ℹ️ No se encontró clave privada local, usando contraseña.');
+    }
+}
 
 const client = new sftp();
 

@@ -26,11 +26,9 @@ jobs:
         run: npm run build
 
       - name: Deploy to GoDaddy via SFTP
-        uses: easingthemes/ssh-deploy@main
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.GODADDY_SSH_KEY }}
-          ARGS: "-rlgoDzvc -i --delete"
-          REMOTE_HOST: "r5l.550.myftpupload.com"
-          REMOTE_USER: "client_7099bf3c0_1103883"
-          TARGET: "/html/"
-          SOURCE: "out/"
+        run: node deploy.mjs
+        env:
+          SFTP_KEY: ${{ secrets.GODADDY_SSH_KEY }}
+          SFTP_USER: "client_7099bf3c0_1103883"
+          SFTP_HOST: "r5l.550.myftpupload.com"
+          SFTP_PORT: "22"
