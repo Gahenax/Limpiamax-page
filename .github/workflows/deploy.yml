@@ -31,6 +31,6 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.GODADDY_SSH_KEY }}
           ARGS: "-rlgoDzvc -i --delete"
           REMOTE_HOST: "r5l.550.myftpupload.com"
-          REMOTE_USER: "git_deployer_2e43b6ccd4_1103883"
+          REMOTE_USER: "client_7099bf3c0_1103883"
           TARGET: "/html/"
           SOURCE: "out/"
