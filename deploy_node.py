@@ -4,8 +4,8 @@ import sys
 
 def deploy_node_app():
     # FTP Connection Details (From previous successful script)
-    FTP_HOST = "gahenaxaisolutions-xyz-137040.hostingersite.com"
-    FTP_USER = "u314799704.gahenaxaisolutions.xyz"
+    FTP_HOST = "212.1.209.105"
+    FTP_USER = "u314799704.Gahenax"
     FTP_PASS = "Luisdaniel949."
     
     # Target directory for Node.js app (Change if needed)

@@ -616,8 +616,8 @@ export default function Home() {
 
         {/* Floating Cart Panel */}
         {cart.services.length > 0 && (
-          <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] w-[90%] max-w-2xl animate-fade-in-up">
-            <div className="bg-primary/95 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-2xl border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] w-[95%] xl:w-max max-w-5xl animate-fade-in-up">
+            <div className="bg-primary/95 backdrop-blur-xl rounded-[2.5rem] p-6 lg:p-8 shadow-2xl border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="text-white">
                 <p className="text-xs font-black uppercase tracking-widest text-accent/80 mb-1">Tu Selección</p>
                 <div className="flex items-baseline gap-3">
@@ -626,7 +626,7 @@ export default function Home() {
                 </div>
               </div>
               
-              <div className="flex gap-4 w-full md:w-auto">
+              <div className="flex flex-wrap items-center justify-center gap-4 w-full md:w-auto">
                 <button 
                   onClick={() => setCart({ services: [], extras: {} })}
                   className="px-6 py-4 rounded-2xl bg-white/5 text-white/60 font-bold hover:bg-white/10 transition-colors"
