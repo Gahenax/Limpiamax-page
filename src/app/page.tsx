@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Phone, MessageCircle, MapPin, Menu, Star, Check, Send, Sofa, Home as HomeIcon, Sparkles, ShoppingCart, Trash2, X, Zap, Gift, ShieldCheck, Mail } from 'lucide-react';
+import { Phone, MessageCircle, MapPin, Menu, Star, Check, Send, Sofa, Home as HomeIcon, Sparkles, ShoppingCart, Trash2, X, Zap, Gift, ShieldCheck, Mail, Building2 } from 'lucide-react';
 import { ConnectEmbeddedComponent } from '@/components/ConnectEmbeddedComponent';
 
 export default function Home() {
   const categories = [
     { id: 'hogar', label: 'Limpieza de Hogar', icon: HomeIcon },
     { id: 'tapiceria', label: 'Tapicería y Especiales', icon: Sofa },
+    { id: 'empresas', label: 'Empresas y Locales', icon: Building2 },
   ];
 
   type Extra = { name: string; price: string; oldPrice?: string };
@@ -23,7 +24,7 @@ export default function Home() {
     oldPrice?: string;
   };
 
-  const services: Record<'hogar' | 'tapiceria', Service[]> = {
+  const services: Record<'hogar' | 'tapiceria' | 'empresas', Service[]> = {
     hogar: [
       {
         title: "Limpieza de Casa (Básica)",
@@ -31,7 +32,7 @@ export default function Home() {
         price: "22,00",
         oldPrice: "35,00",
         unit: "2 habitaciones",
-        img: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=800",
+        img: "/limpieza_casa_oscar_style_1773856637713.png",
         extras: [
           { name: "1 habitación más", price: "+€6.99", oldPrice: "12,99" },
           { name: "Tienes mascotas", price: "+€1.99", oldPrice: "5,99" },
@@ -46,7 +47,7 @@ export default function Home() {
         price: "39.99",
         oldPrice: "55,00",
         unit: "3 horas",
-        img: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=800",
+        img: "/limpieza_profunda_oscar_style_1773856692696.png",
         popular: true,
         extras: [
           { name: "1 baño más", price: "+€6.99", oldPrice: "10,99" },
@@ -63,7 +64,7 @@ export default function Home() {
         price: "49.99",
         oldPrice: "75,00",
         unit: "3 horas",
-        img: "/fin-de-obra.png",
+        img: "/fin_de_obra_oscar_style_1773856706841.png",
         feature: "Plus",
         extras: [
           { name: "Limpieza de paredes", price: "+€14.99", oldPrice: "24,99" },
@@ -79,7 +80,7 @@ export default function Home() {
         price: "55,00",
         oldPrice: "85,00",
         unit: "Desde 2 plazas",
-        img: "/sofa-verde.png",
+        img: "/limpieza_sofa_oscar_style_1773856651459.png",
         extras: [
           { name: "Sofá 3 plazas", price: "€85,00", oldPrice: "115,00" },
           { name: "Sofá 4 plazas", price: "€100,00", oldPrice: "140,00" },
@@ -93,7 +94,7 @@ export default function Home() {
         price: "40.00",
         oldPrice: "60,00",
         unit: "2-4 metros",
-        img: "/alfombra-premium.png",
+        img: "/limpieza_alfombras_oscar_style_1773856721790.png",
         extras: [
           { name: "Alfombra 4-7 metros", price: "€70,00", oldPrice: "100,00" }
         ]
@@ -104,17 +105,43 @@ export default function Home() {
         price: "45,00",
         oldPrice: "75,00",
         unit: "140x190",
-        img: "/colchon-higiene.png",
+        img: "/limpieza_colchones_oscar_style_1773856736297.png",
         extras: [
           { name: "Colchón 140x190", price: "€45,00", oldPrice: "55,00" },
           { name: "Colchón 160x190", price: "€65,00", oldPrice: "85,00" },
           { name: "Pack ambas caras", price: "Incluido" }
         ]
       }
+    ],
+    empresas: [
+      {
+        title: "Limpiezas Industriales",
+        desc: "Limpieza profunda para naves, fábricas e instalaciones industriales con maquinaria especializada.",
+        price: "150,00",
+        unit: "Mínimo",
+        img: "/limpieza_industrial_oscar_style_1773856754718.png",
+        extras: [
+          { name: "Maquinaria pesada", price: "A convenir" },
+          { name: "Tratamiento de suelos", price: "+€50,00" }
+        ]
+      },
+      {
+        title: "Limpiezas de Oficinas",
+        desc: "Mantenimiento integral de espacios de trabajo, escritorios, zonas comunes y baños.",
+        price: "80,00",
+        oldPrice: "120,00",
+        unit: "Mensual",
+        img: "/limpieza_oficina_oscar_style_1773856666092.png",
+        popular: true,
+        extras: [
+          { name: "Limpieza diaria", price: "Consultar" },
+          { name: "Desinfección de equipos", price: "+€20,00" }
+        ]
+      }
     ]
   };
 
-  const [activeCategory, setActiveCategory] = useState<'hogar' | 'tapiceria'>('hogar');
+  const [activeCategory, setActiveCategory] = useState<'hogar' | 'tapiceria' | 'empresas'>('hogar');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cart, setCart] = useState<{
     services: string[];
@@ -174,7 +201,7 @@ export default function Home() {
 
   // Helper to find service data by title
   const findService = (title: string) => {
-    return [...services.hogar, ...services.tapiceria].find(s => s.title === title);
+    return [...services.hogar, ...services.tapiceria, ...services.empresas].find(s => s.title === title);
   };
 
   const calculateTotal = () => {
@@ -516,7 +543,7 @@ export default function Home() {
                 {categories.map((cat) => (
                   <button
                     key={cat.id}
-                    onClick={() => setActiveCategory(cat.id as 'hogar' | 'tapiceria')}
+                    onClick={() => setActiveCategory(cat.id as 'hogar' | 'tapiceria' | 'empresas')}
                   className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-lg transition-all whitespace-nowrap ${
                     activeCategory === cat.id 
                       ? 'bg-primary text-white shadow-elegant-xl scale-105' 
