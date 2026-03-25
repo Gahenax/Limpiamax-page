@@ -1,5 +1,6 @@
 import sftp from 'ssh2-sftp-client';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -10,23 +11,11 @@ const config = {
   port: parseInt(process.env.SFTP_PORT || '22'),
   username: process.env.SFTP_USER || 'client_7099bf3c0_1103883',
   password: process.env.SFTP_PASSWORD || 'WM4jgbMFQuQ0UM',
-  privateKey: process.env.SFTP_KEY,
-  retries: 3,
+  readyTimeout: 60000, // Even more timeout
+  retries: 5,
   retry_factor: 2,
   retry_minTimeout: 2000
 };
-
-// Si hay una clave privada en el archivo local y no viene por env, cargarla (para uso local)
-if (!config.privateKey && !config.password) {
-    try {
-        const keyPath = path.join(__dirname, 'limpiamax_key');
-        if (fs.existsSync(keyPath)) {
-            config.privateKey = fs.readFileSync(keyPath);
-        }
-    } catch {
-        console.log('ℹ️ No se encontró clave privada local, usando contraseña.');
-    }
-}
 
 const client = new sftp();
 
@@ -43,12 +32,28 @@ async function deploy() {
 
     // Rename existing index.php if it exists to allow index.html to take priority
     try {
-      if (await client.exists('./html/index.php')) {
-        console.log('🔄 Renombrando index.php antiguo de WordPress...');
-        await client.rename('./html/index.php', './html/index.php.bak');
-      }
-    } catch {
-      console.log('⚠️ No se pudo renombrar index.php (posiblemente ya no existe).');
+      // Renombrar index.php si existe para evitar que WordPress tome el control
+        const remoteFiles = await client.list(remoteDir);
+        for (const file of remoteFiles) {
+            if (file.name === 'index.php') {
+                console.log('🔄 Renombrando index.php detectado...');
+                const remotePath = `${remoteDir}/${file.name}`.replace(/\\/g, '/');
+                const newPath = `${remoteDir}/${file.name}.bak`.replace(/\\/g, '/');
+                await client.rename(remotePath, newPath);
+                console.log(`✅ ${file.name} renombrado a ${file.name}.bak`);
+            }
+        }
+    } catch (err) {
+        console.log('ℹ️ No se pudo procesar index.php:', err.message);
+    }
+
+    // Intentar borrar index.html antes de subir para asegurar sobrescritura
+    try {
+        console.log('🗑️ Intentando borrar index.html antiguo...');
+        await client.delete(`${remoteDir}/index.html`.replace(/\\/g, '/'));
+        console.log('✅ index.html antiguo borrado.');
+    } catch (err) {
+        console.log('ℹ️ No se pudo borrar index.html (posiblemente no existe o está bloqueado):', err.message);
     }
 
     console.log(`📤 Subiendo contenido de ${localDir} a ${remoteDir}...`);

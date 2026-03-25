@@ -1,34 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: hsl(0 0% 100%);
-  --color-foreground: hsl(220 14% 16%);
+  --color-background: #F8FAFC;
+  --color-foreground: #0F172A;
   
-  --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(220 14% 16%);
+  --color-card: #FFFFFF;
+  --color-card-foreground: #0F172A;
   
-  --color-popover: hsl(0 0% 100%);
-  --color-popover-foreground: hsl(220 14% 16%);
+  --color-popover: #FFFFFF;
+  --color-popover-foreground: #0F172A;
   
-  --color-primary: #1e293b;
-  --color-primary-foreground: hsl(0 0% 100%);
+  --color-primary: #0F172A;
+  --color-primary-foreground: #FFFFFF;
   
-  --color-secondary: hsl(210 40% 96.1%);
-  --color-secondary-foreground: hsl(222.2 47.4% 11.2%);
+  --color-secondary: #F1F5F9;
+  --color-secondary-foreground: #334155;
   
-  --color-muted: hsl(210 40% 96.1%);
-  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
+  --color-muted: #F1F5F9;
+  --color-muted-foreground: #64748B;
   
-  --color-accent: #f97316;
-  --color-accent-foreground: hsl(0 0% 100%);
+  --color-accent: #BF953F;
+  --color-accent-foreground: #FFFFFF;
   
-  --color-success: #1db489;
-  --color-success-foreground: hsl(0 0% 100%);
+  --color-success: #10B981;
+  --color-success-foreground: #FFFFFF;
 
-  --color-border: hsl(214.3 31.8% 91.4%);
-  --color-input: hsl(214.3 31.8% 91.4%);
-  --color-ring: hsl(221.2 83.2% 53.3%);
+  --color-border: #E2E8F0;
+  --color-input: #E2E8F0;
+  --color-ring: #BF953F;
   --radius: 0.75rem;
+
+  /* Tailwind 4 Shadow Definitions */
+  --shadow-elegant: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-elegant-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --shadow-elegant-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-gold-glow: 0 4px 20px 0 rgba(191, 149, 63, 0.3);
 
   --animate-fade-in-up: fade-in-up 0.5s ease-out;
   --animate-scale-in: scale-in 0.4s ease-out;
@@ -68,17 +74,8 @@
 }
 
 @layer utilities {
-  .shadow-elegant {
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-  }
-  .shadow-elegant-lg {
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
-  }
-  .shadow-elegant-xl {
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  }
-  .shadow-orange-glow {
-    box-shadow: 0 4px 14px 0 rgba(249, 115, 22, 0.39);
+  .glass-premium {
+    @apply backdrop-blur-xl bg-white/70 border border-white/20 shadow-elegant-xl;
   }
   .backdrop-blur-nav {
     @apply backdrop-blur-md bg-white/80;

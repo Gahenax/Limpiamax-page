@@ -1,8 +1,12 @@
 node_modules/
 .next/
 out/
-limpiamax_key
-limpiamax_key.pub
+limpiamax_key*
+service-account-key.json
+config_filezilla_limpiamax.xml
+build_logs.txt
 .env*
 .DS_Store
 *.log
+*.key
+*.pub

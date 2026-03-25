@@ -1,0 +1,12 @@
+# Security: Block .env files
+<FilesMatch "^\.env">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Basic structure
+DirectoryIndex index.html
+
+# Enable rewrite engine but no rules yet
+RewriteEngine On
+RewriteBase /

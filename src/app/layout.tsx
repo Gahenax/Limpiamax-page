@@ -11,6 +11,9 @@ export const metadata: Metadata = {
 };
 
 import { StripeConnectProvider } from '@/components/StripeConnectProvider';
+import { CartProvider } from '@/components/CartProvider';
+import { AnnouncementBanner } from '@/components/home/AnnouncementBanner';
+import { AuthProvider } from '@/components/providers/AuthProvider';
 
 export default function RootLayout({
   children,
@@ -20,9 +23,14 @@ export default function RootLayout({
   return (
     <html lang="es" className={`scroll-smooth ${inter.variable} ${outfit.variable}`}>
       <body className="font-sans antialiased">
-        <StripeConnectProvider accountId={process.env.NEXT_PUBLIC_STRIPE_CONNECT_ACCOUNT_ID || ''}>
-          {children}
-        </StripeConnectProvider>
+        <AuthProvider>
+          <StripeConnectProvider accountId={process.env.NEXT_PUBLIC_STRIPE_CONNECT_ACCOUNT_ID || ''}>
+            <CartProvider>
+              <AnnouncementBanner />
+              {children}
+            </CartProvider>
+          </StripeConnectProvider>
+        </AuthProvider>
       </body>
     </html>
   );

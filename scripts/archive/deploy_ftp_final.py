@@ -5,7 +5,7 @@ from pathlib import Path
 def deploy_to_ftp():
     # FTP Connection Details
     FTP_HOST = "212.1.209.105"
-    FTP_USER = "u314799704.gahenaxaisolutions.xyz"
+    FTP_USER = "u314799704.Gahenax"
     FTP_PASS = "Luisdaniel949."
     REMOTE_DIR = "public_html"
     LOCAL_DIR = r"c:\Users\jotam\OneDrive\Desktop\GahenaxAI\limpiamax-web\out"
