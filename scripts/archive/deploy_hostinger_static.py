@@ -4,7 +4,7 @@ import ftplib
 def deploy_static_to_hostinger():
     FTP_HOST = "212.1.209.105"
     FTP_USER = "u314799704.Gahenax"
-    FTP_PASS = "Luisdaniel949."
+    FTP_PASS = os.getenv("FTP_PASS")
     
     LOCAL_DIR = r"c:\Users\jotam\OneDrive\Desktop\GahenaxAI\limpiamax-web\out"
 

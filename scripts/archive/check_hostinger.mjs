@@ -4,7 +4,7 @@ const config = {
   host: '212.1.209.105',
   port: 21, // Probablemente FTP estándar, no SFTP
   user: 'u314799704.Gahenax',
-  password: 'Luisdaniel949.'
+  password: process.env.FTP_PASS
 };
 
 // Como ssh2-sftp-client es para SFTP (puerto 22), 
@@ -21,7 +21,7 @@ async function listHostinger() {
         await client.access({
             host: "212.1.209.105",
             user: "u314799704.Gahenax",
-            password: "Luisdaniel949.",
+            password: process.env.FTP_PASS,
             secure: false
         });
         console.log("✅ Conectado a Hostinger!");

@@ -1,9 +1,10 @@
+import os
 import ftplib
 
 def list_hostinger():
     FTP_HOST = "212.1.209.105"
     FTP_USER = "u314799704.Gahenax"
-    FTP_PASS = "Luisdaniel949."
+    FTP_PASS = os.getenv("FTP_PASS")
 
     print(f"Connecting to {FTP_HOST}...")
     try:

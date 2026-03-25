@@ -6,7 +6,7 @@ def deploy_node_app():
     # FTP Connection Details (From previous successful script)
     FTP_HOST = "212.1.209.105"
     FTP_USER = "u314799704.Gahenax"
-    FTP_PASS = "Luisdaniel949."
+    FTP_PASS = os.getenv("FTP_PASS")
     
     # Target directory for Node.js app (Change if needed)
     REMOTE_DIR = "limpiamax-node" 
@@ -16,7 +16,7 @@ def deploy_node_app():
 
     try:
         ftp = ftplib.FTP(FTP_HOST)
-        ftp.login(FTP_USER, FTP_PASS)
+        ftp.login(FTP_USER, FTP_PASS or "")
         print("✅ Conexión FTP establecida.")
 
         # Create and enter remote directory
