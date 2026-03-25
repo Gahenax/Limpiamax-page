@@ -1,4 +1,5 @@
 import os
+import os
 import ftplib
 from pathlib import Path
 
@@ -6,7 +7,7 @@ def deploy_to_ftp():
     # FTP Connection Details
     FTP_HOST = "212.1.209.105"
     FTP_USER = "u314799704.Gahenax"
-    FTP_PASS = "Luisdaniel949."
+    FTP_PASS = os.getenv("FTP_PASS")
     REMOTE_DIR = "public_html"
     LOCAL_DIR = r"c:\Users\jotam\OneDrive\Desktop\GahenaxAI\limpiamax-web\out"
 
@@ -15,7 +16,7 @@ def deploy_to_ftp():
     try:
         # Connect to FTP
         ftp = ftplib.FTP(FTP_HOST)
-        ftp.login(FTP_USER, FTP_PASS)
+        ftp.login(FTP_USER, FTP_PASS or "")
         print("✅ Conexión FTP establecida.")
 
         # List remote root

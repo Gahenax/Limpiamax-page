@@ -1,14 +1,15 @@
+import os
 import ftplib
 
 def list_ftp():
     FTP_HOST = "212.1.209.105"
     FTP_USER = "u314799704.Gahenax"
-    FTP_PASS = "Luisdaniel949."
+    FTP_PASS = os.getenv("FTP_PASS")
     
     print(f"🔍 Listando contenido FTP en {FTP_HOST}...")
     try:
         ftp = ftplib.FTP(FTP_HOST)
-        ftp.login(FTP_USER, FTP_PASS)
+        ftp.login(FTP_USER, FTP_PASS or "")
         
         print("\n--- Directorio Raíz ---")
         ftp.retrlines('LIST')

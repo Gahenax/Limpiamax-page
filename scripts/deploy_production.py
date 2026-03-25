@@ -5,7 +5,7 @@ import sys
 def deploy_production():
     FTP_HOST = "212.1.209.105"
     FTP_USER = "u314799704.Gahenax"
-    FTP_PASS = "Luisdaniel949."
+    FTP_PASS = os.getenv("FTP_PASS")
     
     LOCAL_DIR = r"c:\Users\jotam\OneDrive\Desktop\GahenaxAI\limpiamax-web\out"
 
@@ -17,7 +17,7 @@ def deploy_production():
 
     try:
         ftp = ftplib.FTP(FTP_HOST)
-        ftp.login(FTP_USER, FTP_PASS)
+        ftp.login(FTP_USER, FTP_PASS or "")
         print("✅ Conexión FTP establecida con éxito.")
 
         def upload_recursive(local_path, remote_path):

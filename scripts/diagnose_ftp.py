@@ -1,3 +1,4 @@
+import os
 import ftplib
 import socket
 
@@ -7,14 +8,14 @@ def test_credentials():
         "u314799704.gahenaxaisolutions.xyz",
         "u314799704.Gahenax"
     ]
-    PASSWORD = "Luisdaniel949."
+    PASSWORD = os.getenv("FTP_PASS")
     
     for user in users:
         print(f"Testing {user}...")
         try:
             ftp = ftplib.FTP(timeout=5)
             ftp.connect(FTP_HOST, 21)
-            ftp.login(user, PASSWORD)
+            ftp.login(user, PASSWORD or "")
             print(f"✅ SUCCESS: {user}")
             print("Current directory:", ftp.pwd())
             print("Contents:")
