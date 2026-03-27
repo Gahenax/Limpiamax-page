@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://limpiamaxbarcelona.com/sitemap.xml
