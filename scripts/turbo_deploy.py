@@ -2,12 +2,12 @@ import os
 import ftplib
 import glob
 
-# Gahenax Turbo Deploy v1.4 (Fase 11: Inyeccion Estricta de Manifiestos)
+# Gahenax Turbo Deploy v1.4 (Fase 11: Inyeccion Estricta de Manifiestos con Hardening)
 
-FTP_HOST = "151.106.106.26"
-FTP_USER = "u314799704.limpiamaxweb.com"
-FTP_PASS = "Luisdaniel949."
-REMOTE_DIR = "public_html"
+FTP_HOST = os.getenv("FTP_HOST", "151.106.106.26")
+FTP_USER = os.getenv("FTP_USER")
+FTP_PASS = os.getenv("FTP_PASS")
+REMOTE_DIR = os.getenv("FTP_REMOTE_DIR", "public_html")
 
 def connect():
     ftp = ftplib.FTP(FTP_HOST)

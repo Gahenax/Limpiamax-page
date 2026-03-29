@@ -6,8 +6,12 @@ limpiamax_key*
 service-account-key.json
 config_filezilla_limpiamax.xml
 build_logs.txt
-.env*
+*.env*
 .DS_Store
 *.log
 *.key
 *.pub
+*.zip
+*.rar
+*.7z
+*.tar.gz

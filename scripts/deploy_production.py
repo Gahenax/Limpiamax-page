@@ -3,11 +3,11 @@ import ftplib
 import sys
 
 def deploy_to_production():
-    # FTP Connection Details
-    FTP_HOST = "212.1.209.105"
-    FTP_USER = "u314799704.limpiamaxbarcelona.com"
-    FTP_PASS = "Luisdaniel949."
-    LOCAL_DIR = r"C:\Users\jotam\OneDrive\Desktop\GahenaxAI\limpiamax-web\out"
+    # FTP Connection Details (Hardened with Environment Variables)
+    FTP_HOST = os.getenv("FTP_HOST", "212.1.209.105")
+    FTP_USER = os.getenv("FTP_USER")
+    FTP_PASS = os.getenv("FTP_PASS")
+    LOCAL_DIR = os.getenv("LOCAL_BUILD_DIR", r"C:\Users\jotam\OneDrive\Desktop\GahenaxAI\limpiamax-web\out")
 
     print(f"🚀 Iniciando despliegue en PRODUCCIÓN: {FTP_HOST}")
     print(f"👤 Usuario: {FTP_USER}")
