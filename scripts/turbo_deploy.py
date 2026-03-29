@@ -4,9 +4,9 @@ import glob
 
 # Gahenax Turbo Deploy v1.4 (Fase 11: Inyeccion Estricta de Manifiestos)
 
-FTP_HOST = "151.106.106.26"
-FTP_USER = "u314799704.limpiamaxweb.com"
-FTP_PASS = "Luisdaniel949."
+FTP_HOST = os.environ.get('FTP_HOST', '151.106.106.26')
+FTP_USER = os.environ.get('FTP_USER', 'u314799704.limpiamaxweb.com')
+FTP_PASS = os.environ.get('FTP_PASS', '')
 REMOTE_DIR = "public_html"
 
 def connect():

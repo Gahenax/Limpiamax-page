@@ -8,8 +8,10 @@ import { MicroFAQ } from '@/components/home/MicroFAQ';
 import { ContactSection } from '@/components/home/ContactSection';
 import { Footer } from '@/components/home/Footer';
 import { BottomNav } from '@/components/home/BottomNav';
-import { MessageCircle, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { Metadata } from 'next';
+import Image from 'next/image';
+import { WhatsAppFAB } from '@/components/home/WhatsAppFAB';
 
 export const metadata: Metadata = {
   title: 'Limpieza Fin de Obra Barcelona | LimpiaMax',
@@ -67,7 +69,7 @@ export default function FinDeObraPage() {
               </div>
               <div className="relative">
                 <div className="aspect-square rounded-[4rem] overflow-hidden shadow-gold-glow relative animate-float">
-                  <img src="/hero-premium-4.png" alt="Limpieza industrial post-obra" className="w-full h-full object-cover" />
+                  <Image src="/hero-premium-4.png" alt="Limpieza industrial post-obra" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
                   <div className="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-black/60 to-transparent">
                     <p className="text-white font-black text-2xl tracking-tight">Equipamiento Industrial v2.0</p>
                     <p className="text-white/70 font-medium">Usamos aspiradoras HEPA para el polvo respirable.</p>
@@ -85,16 +87,7 @@ export default function FinDeObraPage() {
         <MicroFAQ />
         <ContactSection />
 
-        {/* Floating Action Button (WhatsApp) */}
-        <a
-          href="https://wa.me/34674571497"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="fixed bottom-24 md:bottom-6 lg:bottom-10 right-6 lg:right-10 z-[100] w-16 h-16 bg-[#25D366] rounded-full shadow-gold-glow flex items-center justify-center hover:scale-110 hover:-translate-y-2 transition-all duration-300 animate-blur-reveal"
-          aria-label="Contactar por WhatsApp"
-        >
-          <MessageCircle className="w-8 h-8 text-white fill-white" />
-        </a>
+        <WhatsAppFAB />
       </main>
 
       <BottomNav />

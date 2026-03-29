@@ -1,18 +1,22 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Limpiamax Admin",
       credentials: {
-        username: { label: "Usuario", type: "text", placeholder: "LimpiamaxAdmin" },
+        username: { label: "Usuario", type: "text", placeholder: "Admin" },
         password: { label: "PIN", type: "password" }
       },
       async authorize(credentials) {
-        // Validación soberana contra las variables de entorno
-        const adminUser = process.env.ADMIN_USER || "LimpiamaxAdmin";
-        const adminPin = process.env.ADMIN_PIN || "limpiamax2026";
+        const adminUser = process.env.ADMIN_USER;
+        const adminPin = process.env.ADMIN_PIN;
+
+        if (!adminUser || !adminPin) {
+          console.error('ADMIN_USER and ADMIN_PIN environment variables must be set');
+          return null;
+        }
 
         if (
           credentials?.username === adminUser &&
@@ -32,7 +36,7 @@ const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 días de sesión para comodidad operativa
+    maxAge: 30 * 24 * 60 * 60,
   },
   pages: {
     signIn: '/admin/login',
@@ -51,6 +55,8 @@ const handler = NextAuth({
       return session;
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

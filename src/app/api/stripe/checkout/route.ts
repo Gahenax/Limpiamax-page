@@ -1,6 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
+const ALLOWED_ORIGINS = [
+  'https://limpiamaxweb.com',
+  'https://www.limpiamaxweb.com',
+  'http://localhost:3000',
+];
+
+function isAllowedUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return ALLOWED_ORIGINS.some(origin => url.startsWith(origin)) && parsed.pathname.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(request: NextRequest) {
   const stripeSecret = process.env.STRIPE_SECRET_KEY;
   if (!stripeSecret) {
@@ -13,8 +28,20 @@ export async function POST(request: NextRequest) {
   try {
     const { items, frequency, formData, success_url, cancel_url } = await request.json();
 
+    // Validate redirect URLs to prevent open redirect attacks
+    if (!success_url || !isAllowedUrl(success_url)) {
+      return NextResponse.json({ error: 'URL de éxito inválida' }, { status: 400 });
+    }
+    if (!cancel_url || !isAllowedUrl(cancel_url)) {
+      return NextResponse.json({ error: 'URL de cancelación inválida' }, { status: 400 });
+    }
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return NextResponse.json({ error: 'No hay artículos en el carrito' }, { status: 400 });
+    }
+
     const isSubscription = frequency && frequency !== 'once';
-    
+
     // Mapping frequencies to Stripe recurring objects
     const recurringMap: Record<string, Stripe.Checkout.SessionCreateParams.LineItem.PriceData.Recurring> = {
       weekly: { interval: 'week' },

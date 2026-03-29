@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export function Header() {
-  const { cart, isCartOpen, setIsCartOpen, setIsCheckoutOpen, findService, calculateTotal, isBannerVisible } = useCart();
+  const { cart, isCartOpen, setIsCartOpen, setIsCheckoutOpen, findService, calculateTotal, isBannerVisible, toggleService } = useCart();
 
   return (
     <header 
@@ -87,9 +87,10 @@ export function Header() {
                               <p className="text-sm font-bold text-primary truncate leading-tight">{sTitle}</p>
                               <p className="text-xs font-bold text-success mt-0.5">€{service?.price}</p>
                             </div>
-                            <button 
-                              onClick={() => {}} 
+                            <button
+                              onClick={() => toggleService(sTitle)}
                               className="opacity-0 group-hover/item:opacity-100 p-2 text-muted-foreground hover:text-danger transition-all"
+                              aria-label={`Eliminar ${sTitle}`}
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>

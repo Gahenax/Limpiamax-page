@@ -6,7 +6,7 @@ const config = {
   host: 'r5l.550.myftpupload.com',
   port: 22,
   username: 'client_7099bf3c0_1103883',
-  password: 'WM4jgbMFQuQ0UM',
+  password: process.env.SFTP_PASSWORD || '',
   readyTimeout: 60000
 };
 

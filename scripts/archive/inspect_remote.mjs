@@ -9,7 +9,7 @@ const config = {
   host: process.env.SFTP_HOST || 'r5l.550.myftpupload.com',
   port: parseInt(process.env.SFTP_PORT || '22'),
   username: process.env.SFTP_USER || 'client_7099bf3c0_1103883',
-  password: process.env.SFTP_PASSWORD || 'WM4jgbMFQuQ0UM',
+  password: process.env.SFTP_PASSWORD || '',
   readyTimeout: 60000
 };
 

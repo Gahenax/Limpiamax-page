@@ -2,9 +2,10 @@ import { getStripeOrders } from '@/lib/stripe-orders';
 import { OrdersDashboard } from '@/components/admin/OrdersDashboard';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function AdminPage() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   // Redirección de seguridad triple (Middleware + ServerCheck)
   if (!session) {

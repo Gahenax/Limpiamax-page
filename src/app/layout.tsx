@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://limpiamaxweb.com'),
 };
 
-import { StripeConnectProvider } from '@/components/StripeConnectProvider';
 import { CartProvider } from '@/components/CartProvider';
 import { AnnouncementBanner } from '@/components/home/AnnouncementBanner';
 import { AuthProvider } from '@/components/providers/AuthProvider';
@@ -25,12 +24,10 @@ export default function RootLayout({
     <html lang="es" className={`scroll-smooth ${inter.variable} ${outfit.variable}`}>
       <body className="font-sans antialiased">
         <AuthProvider>
-          <StripeConnectProvider accountId={process.env.NEXT_PUBLIC_STRIPE_CONNECT_ACCOUNT_ID || ''}>
-            <CartProvider>
-              <AnnouncementBanner />
-              {children}
-            </CartProvider>
-          </StripeConnectProvider>
+          <CartProvider>
+            <AnnouncementBanner />
+            {children}
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

@@ -13,7 +13,7 @@ export default function Dashboard() {
         <div className="text-center">
           <h1 className="text-3xl font-black text-primary mb-4">Acceso Restringido</h1>
           <p className="text-muted-foreground mb-8">Debes iniciar sesión para ver tu panel.</p>
-          <a href="/login" className="bg-primary text-white px-8 py-3 rounded-2xl font-bold">Ir al Login</a>
+          <a href="/admin/login" className="bg-primary text-white px-8 py-3 rounded-2xl font-bold">Ir al Login</a>
         </div>
       </div>
     );

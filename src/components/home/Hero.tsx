@@ -76,11 +76,9 @@ export function Hero({
   }, []);
 
   // Sync index if badgeText changes (e.g. navigating between landing pages)
-  const [prevBadge, setPrevBadge] = useState(badgeText);
-  if (badgeText !== prevBadge) {
-    setPrevBadge(badgeText);
+  useEffect(() => {
     setCurrentIdx(getInitialIndex(badgeText));
-  }
+  }, [badgeText]);
 
   const nextSlide = () => {
     if (autoplayRef.current) clearInterval(autoplayRef.current);

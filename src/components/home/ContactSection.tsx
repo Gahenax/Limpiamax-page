@@ -108,13 +108,23 @@ export function ContactSection() {
               </div>
               <div className="space-y-3">
                 <label className="text-sm font-black text-primary uppercase tracking-widest ml-1" htmlFor="email">Email</label>
-                <input 
-                  type="email" 
-                  className="flex h-16 w-full rounded-2xl border-2 border-slate-100 bg-white px-6 py-2 text-lg font-medium transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/10 focus-visible:border-accent" 
-                  id="email" 
+                <input
+                  type="email"
+                  className="flex h-16 w-full rounded-2xl border-2 border-slate-100 bg-white px-6 py-2 text-lg font-medium transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/10 focus-visible:border-accent"
+                  id="email"
                   name="email"
-                  placeholder="tu@email.com" 
-                  required 
+                  placeholder="tu@email.com"
+                  required
+                />
+              </div>
+              <div className="space-y-3">
+                <label className="text-sm font-black text-primary uppercase tracking-widest ml-1" htmlFor="message">Mensaje</label>
+                <textarea
+                  className="flex min-h-[120px] w-full rounded-2xl border-2 border-slate-100 bg-white px-6 py-4 text-lg font-medium transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/10 focus-visible:border-accent resize-none"
+                  id="message"
+                  name="message"
+                  placeholder="¿En qué podemos ayudarte?"
+                  maxLength={500}
                 />
               </div>
               <button 

@@ -6,6 +6,7 @@ import { Sparkles, Check, X, ChevronUp, ChevronDown, Home as HomeIcon, Sofa, Bui
 import { useCart, servicesData, ServiceData, Frequency } from '../CartProvider';
 import { CheckoutModal } from '../CheckoutModal';
 import { ConnectEmbeddedComponent } from '../ConnectEmbeddedComponent';
+import { StripeConnectProvider } from '../StripeConnectProvider';
 
 interface ShopSectionProps {
   initialCategory?: 'hogar' | 'tapiceria' | 'empresas';
@@ -338,7 +339,9 @@ export function ShopSection({ initialCategory, initialServiceTitle }: ShopSectio
                     <X className="w-6 h-6" />
                   </button>
                 </div>
-                <ConnectEmbeddedComponent componentName="onboarding" />
+                <StripeConnectProvider accountId={process.env.NEXT_PUBLIC_STRIPE_CONNECT_ACCOUNT_ID || ''}>
+                  <ConnectEmbeddedComponent componentName="onboarding" />
+                </StripeConnectProvider>
               </div>
             )}
           </div>
