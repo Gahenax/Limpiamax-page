@@ -58,7 +58,11 @@ export function SocialProof({ customTestimonials }: SocialProofProps) {
           {/* Testimonials */}
           <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {testimonials.map((t, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-3xl shadow-elegant border border-border/30 animate-fade-in-up flex flex-col h-full" style={{ animationDelay: `${idx * 0.1}s` }}>
+              <div 
+                key={idx} 
+                className="bg-white p-6 rounded-3xl shadow-elegant border border-border/30 animate-fade-in-up flex flex-col h-full cursor-pointer transition-all duration-300 hover:shadow-gold-glow hover:-translate-y-1" 
+                style={{ animationDelay: `${idx * 0.1}s` }}
+              >
                 <div className="flex gap-1 mb-3">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star key={star} className="w-4 h-4 fill-accent text-accent" />

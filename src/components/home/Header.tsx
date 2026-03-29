@@ -20,10 +20,10 @@ export function Header() {
         </Link>
         
         <nav className="hidden md:flex items-center gap-10">
-          <Link href="/servicios" className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground/60 hover:text-accent transition-all">
+          <Link href="/servicios" className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground/60 hover:text-accent focus-visible:text-accent focus-visible:outline-none transition-all">
             Servicios
           </Link>
-          <Link href="/#contacto" className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground/60 hover:text-accent transition-all">
+          <Link href="/#contacto" className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground/60 hover:text-accent focus-visible:text-accent focus-visible:outline-none transition-all">
             Contacto
           </Link>
           <a href="tel:+34674571497" className="flex items-center gap-2 text-sm font-bold text-primary hover:text-accent transition-colors">
@@ -34,7 +34,7 @@ export function Header() {
             <Instagram className="w-4 h-4" />
             Instagram
           </a>
-          <a href="mailto:limpiamaxbarcelona00@gmail.com" className="flex items-center gap-2 text-sm font-bold text-primary hover:text-accent transition-colors">
+          <a href="mailto:limpiamaxbarcelona00@gmail.com" className="flex items-center gap-2 text-sm font-bold text-primary hover:text-accent focus-visible:text-accent focus-visible:outline-none transition-colors">
             <Mail className="w-4 h-4" />
             Email
           </a>
@@ -43,7 +43,7 @@ export function Header() {
           <div className="relative">
             <button 
               onClick={() => setIsCartOpen(!isCartOpen)}
-              className="relative p-2 text-primary hover:bg-slate-100 rounded-full transition-all group"
+              className="relative p-2 text-primary hover:bg-slate-100 focus-visible:bg-slate-100 focus-visible:outline-none rounded-full transition-all group cursor-pointer"
             >
               <ShoppingCart className="w-6 h-6" />
               {cart.services.length > 0 && (
@@ -120,7 +120,7 @@ export function Header() {
             href="https://wa.me/34674571497" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-success text-white text-sm font-bold hover:opacity-90 transition-all active:scale-[0.98] shadow-sm shadow-success/20"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-success text-white text-sm font-bold hover:opacity-90 focus-visible:ring-4 focus-visible:ring-success/20 focus-visible:outline-none transition-all active:scale-[0.98] shadow-sm shadow-success/20 cursor-pointer"
           >
             <MessageCircle className="w-4 h-4 fill-white" />
             WhatsApp

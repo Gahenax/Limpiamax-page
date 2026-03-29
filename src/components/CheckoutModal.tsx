@@ -71,8 +71,8 @@ export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessag
   };
 
   return (
-    <dialog open={isOpen} className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-primary/20 backdrop-blur-sm animate-fade-in w-full h-full max-w-none max-h-none m-0">
-      <div className="bg-white rounded-[2rem] shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
+    <dialog open={isOpen} className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in w-full h-full max-w-none max-h-none m-0">
+      <div className="bg-white rounded-[2rem] shadow-luxe w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh] border border-white/20">
         {/* Header */}
         <div className="bg-primary p-6 text-white flex justify-between items-center shrink-0">
           <div>

@@ -15,13 +15,13 @@ export function PromoBar() {
             </div>
           </div>
 
-          <div className="bg-primary p-8 rounded-[2.5rem] shadow-gold-glow border border-white/10 flex items-center gap-6 group hover:scale-[1.02] transition-all animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+          <div className="bg-primary p-8 rounded-[2.5rem] shadow-gold-glow border border-white/10 flex items-center gap-6 group hover:scale-[1.02] transition-all animate-fade-in-up cursor-default" style={{ animationDelay: '0.5s' }}>
             <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 group-hover:rotate-12 transition-transform">
               <Gift className="w-7 h-7 text-accent" />
             </div>
             <div>
               <h4 className="font-black text-white uppercase tracking-tighter text-lg">Promo Apertura</h4>
-              <p className="text-white/70 text-sm font-bold">-€10 en <span className="text-accent underline">tu primer sofá</span></p>
+              <p className="text-slate-100 text-sm font-bold">-€10 en <span className="text-accent underline decoration-2 underline-offset-4">tu primer sofá</span></p>
             </div>
           </div>
 

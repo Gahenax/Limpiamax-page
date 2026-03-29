@@ -31,7 +31,7 @@ export function ContactSection() {
                 href="https://wa.me/34674571497" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center gap-6 p-8 rounded-[2rem] bg-success/5 border border-success/10 shadow-elegant hover:shadow-elegant-lg hover:bg-success/10 transition-all group"
+                className="flex items-center gap-6 p-8 rounded-[2rem] bg-success/5 border border-success/10 shadow-elegant hover:shadow-elegant-lg hover:bg-success/10 transition-all group cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-success/20"
               >
                 <div className="w-16 h-16 rounded-2xl bg-success/20 flex items-center justify-center shrink-0 transition-transform group-hover:scale-110">
                   <MessageCircle className="w-8 h-8 text-success fill-success/20" />
@@ -45,7 +45,7 @@ export function ContactSection() {
               {/* Email Card */}
               <a 
                 href="mailto:limpiamaxbarcelona00@gmail.com?subject=Solicitud de Presupuesto Limpieza" 
-                className="flex items-center gap-4 sm:gap-6 p-6 sm:p-8 rounded-[2rem] bg-accent/5 border border-accent/10 shadow-elegant hover:shadow-elegant-lg hover:bg-accent/10 transition-all group"
+                className="flex items-center gap-4 sm:gap-6 p-6 sm:p-8 rounded-[2rem] bg-accent/5 border border-accent/10 shadow-elegant hover:shadow-elegant-lg hover:bg-accent/10 transition-all group cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/20"
               >
                 <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-accent/20 flex items-center justify-center shrink-0 transition-transform group-hover:scale-110">
                   <Mail className="w-6 h-6 sm:w-8 sm:h-8 text-accent" />
@@ -119,7 +119,7 @@ export function ContactSection() {
               </div>
               <button 
                 type="submit" 
-                className="w-full py-6 flex items-center justify-center gap-3 bg-primary text-white rounded-3xl font-black text-2xl shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] mt-6"
+                className="w-full py-6 flex items-center justify-center gap-3 bg-primary text-white rounded-3xl font-black text-2xl shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] mt-6 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20"
               >
                 <Send className="w-6 h-6" />
                 Solicitar Info
