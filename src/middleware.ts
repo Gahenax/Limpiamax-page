@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 export default withAuth(
   function middleware() {
-    // Custom logic can go here
     return NextResponse.next();
   },
   {
@@ -11,13 +10,14 @@ export default withAuth(
       authorized: ({ token }) => !!token,
     },
     pages: {
-      signIn: "/login",
+      signIn: "/admin/login",
     },
   }
 );
 
 export const config = {
   matcher: [
+    "/admin/:path*",
     "/dashboard/:path*",
     "/api/stripe/create-account",
     "/api/stripe/account-session",

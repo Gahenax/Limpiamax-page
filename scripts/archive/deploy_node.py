@@ -12,19 +12,19 @@ def deploy_node_app():
     REMOTE_DIR = "limpiamax-node" 
     LOCAL_DIR = r"c:\Users\jotam\OneDrive\Desktop\GahenaxAI\limpiamax-web\.next\standalone"
 
-    print(f"🚀 Iniciando despliegue de Aplicación Node.js en {FTP_HOST}...")
+    print(f" Iniciando despliegue de Aplicación Node.js en {FTP_HOST}...")
 
     try:
         ftp = ftplib.FTP(FTP_HOST)
         ftp.login(FTP_USER, FTP_PASS or "")
-        print("✅ Conexión FTP establecida.")
+        print(" Conexión FTP establecida.")
 
         # Create and enter remote directory
         try:
             ftp.mkd(REMOTE_DIR)
-            print(f"📁 Directorio creado: {REMOTE_DIR}")
+            print(f" Directorio creado: {REMOTE_DIR}")
         except:
-            print(f"📂 El directorio {REMOTE_DIR} ya existe o no se pudo crear.")
+            print(f" El directorio {REMOTE_DIR} ya existe o no se pudo crear.")
         
         ftp.cwd(REMOTE_DIR)
 
@@ -35,7 +35,7 @@ def deploy_node_app():
                     
                     if os.path.isfile(l_item_path):
                         with open(l_item_path, 'rb') as f:
-                            print(f"📤 Subiendo: {os.path.join(remote_path, item)}")
+                            print(f" Subiendo: {os.path.join(remote_path, item)}")
                             ftp.storbinary(f'STOR {item}', f)
                     elif os.path.isdir(l_item_path):
                         try:
@@ -46,7 +46,7 @@ def deploy_node_app():
                         upload_directory(l_item_path, os.path.join(remote_path, item))
                         ftp.cwd('..')
             except Exception as e:
-                print(f"⚠️ Error procesando {local_path}: {e}")
+                print(f" Error procesando {local_path}: {e}")
 
         # Start recursive upload
         print(f"⏳ Subiendo archivos desde {LOCAL_DIR}...")
@@ -54,7 +54,7 @@ def deploy_node_app():
 
         ftp.quit()
         print("\n" + "="*50)
-        print("🎉 ¡Archivos subidos con éxito!")
+        print(" ¡Archivos subidos con éxito!")
         print("Próximos pasos en Hostinger:")
         print(f"1. Ve a tu panel de Hostinger -> Aplicación Node.js")
         print(f"2. Configura la raíz de la aplicación como: /{REMOTE_DIR}")
@@ -64,7 +64,7 @@ def deploy_node_app():
         print("="*50)
 
     except Exception as e:
-        print(f"❌ Error crítico durante el despliegue: {e}")
+        print(f" Error crítico durante el despliegue: {e}")
 
 if __name__ == "__main__":
     deploy_node_app()

@@ -12,7 +12,7 @@ def deploy():
     password = os.getenv('SFTP_PASS')
     local_dir = 'out'
 
-    print(f"🚀 Iniciando despliegue en {host} (Modo Compatibilidad)...")
+    print(f" Iniciando despliegue en {host} (Modo Compatibilidad)...")
     
     try:
         # Forzar algoritmos que GoDaddy suele aceptar
@@ -31,14 +31,14 @@ def deploy():
         )
         
         sftp = ssh.open_sftp()
-        print("✅ Conexión SFTP establecida con éxito.")
+        print(" Conexión SFTP establecida con éxito.")
         
         # Navegar al directorio correcto
         try:
             sftp.chdir('html')
-            print("📁 Directorio remoto: /html")
+            print(" Directorio remoto: /html")
         except:
-            print("📁 Directorio remoto: /")
+            print(" Directorio remoto: /")
 
         def upload_dir(local_path, remote_subpath):
             files = os.listdir(local_path)
@@ -53,18 +53,18 @@ def deploy():
                         pass
                     upload_dir(l_path, r_path)
                 else:
-                    print(f"📤 Subiendo: {r_path}")
+                    print(f" Subiendo: {r_path}")
                     sftp.put(l_path, r_path)
 
         upload_dir(local_dir, '')
         
         sftp.close()
         ssh.close()
-        print("🎉 ¡TODO SUBIDO! La web de Limpia MAX ya debería estar online.")
+        print(" ¡TODO SUBIDO! La web de Limpia MAX ya debería estar online.")
         
     except Exception as e:
         import traceback
-        print(f"❌ Error: {e}")
+        print(f" Error: {e}")
         traceback.print_exc()
 
 if __name__ == "__main__":

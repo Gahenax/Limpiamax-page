@@ -14,10 +14,10 @@ async function overwriteIndexPhp() {
     console.log('Attempting to overwrite index.php...');
     const content = "<?php\n// Redirect to static index.html\ninclude 'index.html';\nexit;\n";
     await client.put(Buffer.from(content), '/html/index.php');
-    console.log('✅ index.php overwritten!');
+    console.log(' index.php overwritten!');
     await client.end();
   } catch (err) {
-    console.error('❌ Error:', err.message);
+    console.error(' Error:', err.message);
   }
 }
 

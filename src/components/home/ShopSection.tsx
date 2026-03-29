@@ -48,12 +48,12 @@ export function ShopSection({ initialCategory, initialServiceTitle }: ShopSectio
   return (
     <>
       {/* Services Section */}
-      <section id="servicios" className="py-32 bg-white flex-1">
+      <section id="servicios" className="py-40 bg-white flex-1 relative overflow-hidden">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-20 animate-fade-in-up">
-            <h2 className="text-5xl lg:text-6xl font-extrabold font-outfit text-primary mb-6 tracking-tight">Nuestros Servicios</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-medium">
-              Selecciona una categoría para ver nuestros precios transparentes y sin sorpresas.
+          <div className="text-center mb-28 text-reveal">
+            <h2 className="editorial-title text-5xl lg:text-[80px] text-primary mb-8 tracking-[-0.04em]">Nuestros Servicios</h2>
+            <p className="text-xl text-muted-foreground/60 max-w-2xl mx-auto font-medium leading-relaxed">
+              Selecciona una categoría para descubrir una experiencia de limpieza sin precedentes en Barcelona.
             </p>
           </div>
 
@@ -145,8 +145,8 @@ export function ShopSection({ initialCategory, initialServiceTitle }: ShopSectio
                 <div 
                   key={idx} 
                   onClick={() => toggleService(service.title)}
-                  className={`group rounded-[2.5rem] border overflow-hidden transition-all duration-500 h-full flex flex-col hover:-translate-y-2 relative animate-fade-in-up cursor-pointer ${
-                    isServiceSelected ? 'border-accent shadow-elegant-xl ring-2 ring-accent/20' : 'bg-white border-border shadow-elegant hover:shadow-elegant-xl'
+                  className={`group rounded-[3rem] border ultra-thin-border overflow-hidden transition-all duration-700 h-full flex flex-col hover:-translate-y-4 relative text-reveal cursor-pointer ${
+                    isServiceSelected ? 'border-accent shadow-gold-glow ring-[12px] ring-accent/5' : 'bg-white border-border shadow-luxe'
                   }`} 
                   style={{ animationDelay: `${idx * 0.1}s` }}
                 >
@@ -205,7 +205,7 @@ export function ShopSection({ initialCategory, initialServiceTitle }: ShopSectio
                     
                     <div className="space-y-4 mb-10 pt-6 border-t border-border/50">
                       <p className="text-xs font-black uppercase tracking-widest text-muted-foreground/50">Extras Opcionales</p>
-                       {service.extras?.map((extra: any, eidx: number) => {
+                       {service.extras?.map((extra: { name: string; price: string; oldPrice?: string; badge?: string }, eidx: number) => {
                         const isExtraSelected = (cart.extras[service.title] || []).includes(extra.name);
                         return (
                           <div 
@@ -272,8 +272,8 @@ export function ShopSection({ initialCategory, initialServiceTitle }: ShopSectio
               <>Mínimizar <ChevronDown className="w-5 h-5 ml-1" /></>
             )}
           </button>
-          <div className={`bg-primary/95 backdrop-blur-xl rounded-[2.5rem] rounded-b-none lg:rounded-[2.5rem] shadow-2xl border border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 lg:gap-6 w-full transition-all duration-500 ease-in-out origin-bottom ${
-            isCartMinimized ? 'h-0 max-h-0 p-0 opacity-0 overflow-hidden border-none' : 'max-h-[500px] p-6 lg:p-8 mb-8 opacity-100'
+          <div className={`glass-gold rounded-[4rem] rounded-b-none lg:rounded-[4rem] border-white/40 flex flex-col md:flex-row items-center justify-between gap-6 lg:gap-10 w-full transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1) origin-bottom ${
+            isCartMinimized ? 'h-0 max-h-0 p-0 opacity-0 overflow-hidden border-none translate-y-20' : 'max-h-[600px] p-10 lg:p-12 mb-12 opacity-100 shadow-gold-glow animate-blur-reveal'
           }`}>
             <div className="text-white w-full md:w-auto flex justify-between items-center md:block">
               <div>

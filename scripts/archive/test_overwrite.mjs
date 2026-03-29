@@ -17,10 +17,10 @@ async function testWrite() {
     const content = "<?php include 'index.html'; ?>";
     const stream = Readable.from([content]);
     await client.put(stream, '/html/index.php');
-    console.log('✅ Successfully overwrote index.php');
+    console.log(' Successfully overwrote index.php');
     await client.end();
   } catch (err) {
-    console.error('❌ Failed to overwrite index.php:', err.message);
+    console.error(' Failed to overwrite index.php:', err.message);
   }
 }
 

@@ -17,7 +17,7 @@ async function downloadIndexPhp() {
     console.log(data.toString());
     await client.end();
   } catch (err) {
-    console.error('❌ Error:', err.message);
+    console.error(' Error:', err.message);
   }
 }
 

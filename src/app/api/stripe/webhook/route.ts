@@ -42,12 +42,16 @@ export async function POST(req: NextRequest) {
             session.customer_details?.email || 'N/A',
             (session.amount_total || 0) / 100,
             session.currency,
-            'SUCCESS'
+            'SUCCESS',
+            session.metadata?.customer_name || 'N/A',
+            session.metadata?.customer_phone || 'N/A'
           ]]);
         } catch (logErr) {
           console.error('Failed to log sale to sheet:', logErr);
         }
       }
+
+      console.log('Order processed and synced with Admin Hub.');
       break;
     case 'payment_intent.payment_failed':
       const paymentIntent = event.data.object as Stripe.PaymentIntent;

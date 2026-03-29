@@ -73,7 +73,7 @@ class IndexerFactory {
  * Client Code: Orchestrator
  */
 async function runIndexing() {
-  const BASE_URL = "https://limpiamaxbarcelona.com";
+  const BASE_URL = "https://limpiamaxweb.com";
   const urlsToIndex = [
     BASE_URL,
     `${BASE_URL}/servicios`,
@@ -97,7 +97,7 @@ async function runIndexing() {
   await firewallIndexer.index(urlsToIndex);
 
   console.log("\n✨ Proceso de indexación y reputación completado.");
-  console.log("🌐 Revisa site:limpiamaxbarcelona.com en unos minutos.");
+  console.log("🌐 Revisa site:limpiamaxweb.com en unos minutos.");
 }
 
 runIndexing();

@@ -8,6 +8,10 @@ const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 export const metadata: Metadata = {
   title: 'Limpia MAX — Limpieza Profesional en Barcelona',
   description: 'Servicio de limpieza profesional de casas, sofás, alfombras y colchones en Barcelona. Precios desde €9,99.',
+  metadataBase: new URL('https://limpiamaxweb.com'),
+  alternates: {
+    canonical: '/',
+  },
 };
 
 import { StripeConnectProvider } from '@/components/StripeConnectProvider';

@@ -1,0 +1,11 @@
+{
+  "name": "gahenax-ghost-ops",
+  "version": "1.0.0",
+  "description": "Sovereign automation scripts for Gahenax AI",
+  "main": "ghost_hostinger_alias.mjs",
+  "dependencies": {
+    "puppeteer": "^24.3.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}

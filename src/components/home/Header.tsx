@@ -12,18 +12,18 @@ export function Header() {
   return (
     <header 
       style={{ top: isBannerVisible ? '32px' : '0' }}
-      className="hidden md:block fixed left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-border transition-all duration-300"
+      className="hidden md:block fixed left-0 right-0 z-50 bg-white/70 backdrop-blur-xl border-b ultra-thin-border border-accent/10 shadow-luxe transition-all duration-300"
     >
-      <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-start">
+      <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+        <Link href="/" className="flex items-start hover:scale-105 transition-transform duration-300">
           <Logo />
         </Link>
         
-        <nav className="hidden md:flex items-center gap-8">
-          <Link href="/servicios" className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">
+        <nav className="hidden md:flex items-center gap-10">
+          <Link href="/servicios" className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground/60 hover:text-accent transition-all">
             Servicios
           </Link>
-          <Link href="/#contacto" className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">
+          <Link href="/#contacto" className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground/60 hover:text-accent transition-all">
             Contacto
           </Link>
           <a href="tel:+34674571497" className="flex items-center gap-2 text-sm font-bold text-primary hover:text-accent transition-colors">
@@ -55,10 +55,10 @@ export function Header() {
 
             {/* Cart Dropdown */}
             {isCartOpen && (
-              <div className="absolute top-full -right-4 sm:right-0 mt-4 w-[90vw] sm:w-80 bg-white rounded-[2rem] shadow-elegant-xl border border-border p-6 animate-fade-in-up z-[60]">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="font-bold text-primary font-outfit text-lg">Mi Carrito</h3>
-                  <button onClick={() => setIsCartOpen(false)} className="text-muted-foreground hover:text-primary transition-colors">
+              <div className="absolute top-full -right-4 sm:right-0 mt-6 w-[95vw] sm:w-96 bg-white/95 backdrop-blur-xl rounded-[2.5rem] shadow-gold-glow border ultra-thin-border border-accent/20 p-8 animate-blur-reveal z-[60]">
+                <div className="flex items-center justify-between mb-8">
+                  <h3 className="editorial-title text-2xl text-primary">Tu Selección</h3>
+                  <button onClick={() => setIsCartOpen(false)} className="text-muted-foreground/40 hover:text-accent transition-all">
                     <X className="w-5 h-5" />
                   </button>
                 </div>

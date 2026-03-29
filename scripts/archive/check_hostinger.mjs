@@ -24,7 +24,7 @@ async function listHostinger() {
             password: process.env.FTP_PASS,
             secure: false
         });
-        console.log("✅ Conectado a Hostinger!");
+        console.log(" Conectado a Hostinger!");
         console.log(await client.list("/"));
         
         // Intentar ver si existe public_html
@@ -36,7 +36,7 @@ async function listHostinger() {
         }
 
     } catch (err) {
-        console.error("❌ Error:", err.message);
+        console.error(" Error:", err.message);
     }
     client.close();
 }

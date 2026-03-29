@@ -16,9 +16,9 @@ const config = {
 async function inspect() {
   const client = new sftp();
   try {
-    console.log('📂 Conectando...');
+    console.log(' Conectando...');
     await client.connect(config);
-    console.log('✅ Conectado.');
+    console.log(' Conectado.');
     
     console.log('Listing root /:');
     const root = await client.list('/');
@@ -32,7 +32,7 @@ async function inspect() {
 
     await client.end();
   } catch (err) {
-    console.error('❌ Error:', err.message);
+    console.error(' Error:', err.message);
   }
 }
 

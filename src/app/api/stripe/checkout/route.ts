@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion,
   });
   try {
-    const { items, frequency, success_url, cancel_url } = await request.json();
+    const { items, frequency, formData, success_url, cancel_url } = await request.json();
 
     const isSubscription = frequency && frequency !== 'once';
     
@@ -46,6 +46,13 @@ export async function POST(request: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       mode: isSubscription ? 'subscription' : 'payment',
       line_items,
+      metadata: {
+        customer_name: formData.nombre,
+        customer_email: formData.email,
+        customer_phone: formData.telefono,
+        customer_address: `${formData.calle}, ${formData.piso}, ${formData.cp}`,
+        frequency: frequency || 'once'
+      },
       success_url: success_url + '?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: cancel_url,
     });

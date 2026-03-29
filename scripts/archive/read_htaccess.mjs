@@ -18,7 +18,7 @@ async function readHtaccess() {
     console.log(content.toString());
     await client.end();
   } catch (err) {
-    console.error('❌ Failed to read .htaccess:', err.message);
+    console.error(' Failed to read .htaccess:', err.message);
   }
 }
 

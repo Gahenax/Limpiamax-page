@@ -35,7 +35,7 @@ async function inspect() {
 
     await client.end();
   } catch (err) {
-    console.error('❌ Error:', err.message);
+    console.error(' Error:', err.message);
   }
 }
 

@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #F8FAFC;
-  --color-foreground: #0F172A;
+  --color-background: #FFFFFF;
+  --color-foreground: #1A1C1E;
   
   --color-card: #FFFFFF;
-  --color-card-foreground: #0F172A;
+  --color-card-foreground: #1A1C1E;
   
   --color-popover: #FFFFFF;
-  --color-popover-foreground: #0F172A;
+  --color-popover-foreground: #1A1C1E;
   
-  --color-primary: #0F172A;
+  --color-primary: #1A1C1E;
   --color-primary-foreground: #FFFFFF;
   
-  --color-secondary: #F1F5F9;
-  --color-secondary-foreground: #334155;
+  --color-secondary: #F8FAFC;
+  --color-secondary-foreground: #475569;
   
   --color-muted: #F1F5F9;
   --color-muted-foreground: #64748B;
@@ -22,27 +22,33 @@
   --color-accent: #BF953F;
   --color-accent-foreground: #FFFFFF;
   
+  /* Custom Luxe Colors */
+  --color-gold-silk: #D4AF37;
+  --color-champagne: #FDFCF7;
+  --color-ivory: #FFFFF0;
+  
   --color-success: #10B981;
   --color-success-foreground: #FFFFFF;
 
-  --color-border: #E2E8F0;
-  --color-input: #E2E8F0;
+  --color-border: #F1F5F9;
+  --color-input: #F1F5F9;
   --color-ring: #BF953F;
-  --radius: 0.75rem;
+  --radius: 1rem;
 
-  /* Tailwind 4 Shadow Definitions */
-  --shadow-elegant: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-  --shadow-elegant-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
-  --shadow-elegant-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-gold-glow: 0 4px 20px 0 rgba(191, 149, 63, 0.3);
+  /* Ultra-Luxe Layered Shadows */
+  --shadow-luxe: 0 10px 15px -3px rgba(0, 0, 0, 0.02), 0 4px 6px -4px rgba(0, 0, 0, 0.02), 0 20px 25px -5px rgba(0, 0, 0, 0.03);
+  --shadow-gold-glow: 0 10px 30px -10px rgba(191, 149, 63, 0.4);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
 
-  --animate-fade-in-up: fade-in-up 0.5s ease-out;
-  --animate-scale-in: scale-in 0.4s ease-out;
+  --animate-fade-in-up: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-blur-reveal: blur-reveal 1s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-shimmer: shimmer 3s infinite linear;
+  --animate-float: float 6s ease-in-out infinite;
 
   @keyframes fade-in-up {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(30px);
     }
     to {
       opacity: 1;
@@ -50,15 +56,28 @@
     }
   }
 
-  @keyframes scale-in {
+  @keyframes blur-reveal {
     from {
       opacity: 0;
-      transform: scale(0.95);
+      filter: blur(10px);
+      transform: scale(0.98);
     }
     to {
       opacity: 1;
+      filter: blur(0);
       transform: scale(1);
     }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
   }
 }
 
@@ -75,9 +94,23 @@
 
 @layer utilities {
   .glass-premium {
-    @apply backdrop-blur-xl bg-white/70 border border-white/20 shadow-elegant-xl;
+    @apply backdrop-blur-xl bg-white/40 border border-white/20 shadow-luxe;
   }
-  .backdrop-blur-nav {
-    @apply backdrop-blur-md bg-white/80;
+  .glass-gold {
+    @apply backdrop-blur-xl bg-white/40 border border-accent/20 shadow-gold-glow;
+  }
+  .text-reveal {
+    @apply animate-blur-reveal;
+  }
+  .gold-shimmer {
+    background: linear-gradient(90deg, rgba(212,175,55,1) 0%, rgba(255,235,175,1) 50%, rgba(212,175,55,1) 100%);
+    background-size: 200% auto;
+    @apply animate-shimmer;
+  }
+  .editorial-title {
+    @apply font-outfit font-light tracking-[-0.05em] leading-[1.1];
+  }
+  .ultra-thin-border {
+    border-width: 0.5px;
   }
 }

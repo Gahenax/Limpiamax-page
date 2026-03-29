@@ -7,6 +7,15 @@
 # Basic structure
 DirectoryIndex index.html
 
-# Enable rewrite engine but no rules yet
+# Enable rewrite engine
 RewriteEngine On
 RewriteBase /
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect old domain to new domain (Permanent 301)
+RewriteCond %{HTTP_HOST} ^gahenaxaisolutions\.xyz$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^www\.gahenaxaisolutions\.xyz$ [NC]
+RewriteRule ^(.*)$ https://limpiamaxbarcelona.com/$1 [L,R=301]

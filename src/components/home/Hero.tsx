@@ -50,11 +50,8 @@ const DEFAULT_SLIDES = [
 
 export function Hero({
   badgeText,
-  title,
-  subtitle
+  title
 }: HeroProps) {
-  const isLandingPage = !!title;
-  
   const getInitialIndex = (badge?: string) => {
     if (!badge) return 0;
     const text = badge.toLowerCase();
@@ -81,8 +78,12 @@ export function Hero({
   };
 
   useEffect(() => {
-    startAutoplay();
-    return () => stopAutoplay();
+    autoplayRef.current = setInterval(() => {
+      setCurrentIdx((prev) => (prev + 1) % DEFAULT_SLIDES.length);
+    }, 6000); 
+    return () => {
+      if (autoplayRef.current) clearInterval(autoplayRef.current);
+    };
   }, []);
 
   // Sync index if badgeText changes (e.g. navigating between landing pages)
@@ -93,15 +94,13 @@ export function Hero({
   }
 
   const nextSlide = () => {
-    stopAutoplay();
+    if (autoplayRef.current) clearInterval(autoplayRef.current);
     setCurrentIdx((prev) => (prev + 1) % DEFAULT_SLIDES.length);
-    startAutoplay();
   };
 
   const prevSlide = () => {
-    stopAutoplay();
+    if (autoplayRef.current) clearInterval(autoplayRef.current);
     setCurrentIdx((prev) => (prev - 1 + DEFAULT_SLIDES.length) % DEFAULT_SLIDES.length);
-    startAutoplay();
   };
 
   // Logic: Always show the slide's content to keep them "matched"
@@ -110,46 +109,47 @@ export function Hero({
   const displaySubtitle = DEFAULT_SLIDES[currentIdx].subtitle;
 
   return (
-    <section className="relative min-h-[90vh] flex items-center pt-20 bg-card overflow-hidden">
-      <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+    <section className="relative min-h-[90vh] flex items-center pt-24 bg-white overflow-hidden">
+      <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
         <div className="relative z-10">
           {/* Text content with key to trigger re-animation on slide change */}
-          <div key={currentIdx} className="animate-in fade-in slide-in-from-left-4 duration-700">
-            <div className="inline-flex items-center rounded-full border px-3 py-1 text-xs transition-colors mb-6 bg-success/10 text-success border-success/20 font-bold uppercase tracking-wider">
+          <div key={currentIdx} className="text-reveal">
+            <div className="inline-flex items-center rounded-full border px-4 py-1.5 text-[10px] transition-all mb-8 bg-accent/5 text-accent border-accent/20 font-black uppercase tracking-[0.2em]">
               {displayBadge}
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold font-outfit text-primary leading-[1.05] mb-6 sm:mb-8 tracking-tighter">
+            <h1 className="editorial-title text-6xl sm:text-7xl lg:text-[100px] text-primary mb-8 tracking-[-0.04em]">
               {displayTitle}
             </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-lg leading-relaxed font-medium">
+            <p className="text-lg sm:text-xl text-muted-foreground/80 mb-10 max-w-lg leading-relaxed font-medium">
               {displaySubtitle}
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-5">
+          <div className="flex flex-col sm:flex-row gap-6">
             <a 
               href="#servicios" 
-              className="inline-flex items-center justify-center px-10 py-5 bg-accent text-white rounded-full font-extrabold text-xl shadow-gold-glow hover:shadow-elegant-xl transition-all active:scale-[0.98] hover:-translate-y-0.5"
+              className="gold-shimmer inline-flex items-center justify-center px-10 py-5 text-white rounded-2xl font-black text-xl shadow-gold-glow hover:shadow-elegant-xl transition-all active:scale-[0.98] hover:-translate-y-1"
             >
-              Reserva tu limpieza ahora
+              Reserva tu limpieza
             </a>
             <a 
-              href="mailto:limpiamaxbarcelona00@gmail.com?subject=Solicitud de Presupuesto Limpieza" 
-              className="inline-flex items-center justify-center gap-3 px-8 py-5 border-2 border-primary text-primary rounded-full font-black text-lg hover:bg-primary hover:text-white transition-all active:scale-[0.98]"
+              href="mailto:limpiamaxbarcelona00@gmail.com?subject=Solicitud de Presupuesto" 
+              className="inline-flex items-center justify-center gap-3 px-8 py-5 border-2 border-primary/10 text-primary rounded-2xl font-black text-lg hover:bg-primary hover:text-white transition-all active:scale-[0.98]"
             >
               Pide Presupuesto
             </a>
           </div>
-          <div className="mt-8 flex items-center gap-4 px-8 py-5 border border-border rounded-full bg-white shadow-sm w-fit">
-            <div className="w-2.5 h-2.5 bg-success rounded-full animate-pulse" />
-            <span className="text-base font-bold text-muted-foreground flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-success" /> Disponible hoy en Barcelona
+          <div className="mt-12 flex items-center gap-4 px-8 py-5 border border-border/50 rounded-2xl bg-white shadow-luxe w-fit animate-float">
+            <div className="w-2.5 h-2.5 bg-accent rounded-full animate-pulse" />
+            <span className="text-sm font-bold text-muted-foreground flex items-center gap-3">
+              <MapPin className="w-5 h-5 text-accent" /> 
+              Disponible hoy en Barcelona <span className="text-[10px] font-black uppercase text-accent bg-accent/10 px-2 py-0.5 rounded-lg border border-accent/20">LIVE</span>
             </span>
           </div>
         </div>
 
         <div className="relative group perspective-1000">
-          <div className="aspect-[4/5] rounded-[3rem] overflow-hidden shadow-elegant-xl border-[12px] border-white bg-muted relative">
+          <div className="aspect-[4/5] rounded-[3.5rem] overflow-hidden shadow-luxe border-[1px] border-border/50 bg-secondary relative">
             <img 
               src={DEFAULT_SLIDES[currentIdx].url} 
               className="w-full h-full object-cover transition-all duration-700 ease-in-out scale-100 group-hover:scale-105" 
@@ -179,7 +179,7 @@ export function Hero({
               {DEFAULT_SLIDES.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => { stopAutoplay(); setCurrentIdx(i); startAutoplay(); }}
+                  onClick={() => { if (autoplayRef.current) clearInterval(autoplayRef.current); setCurrentIdx(i); }}
                   className={`h-2.5 rounded-full transition-all duration-500 ${i === currentIdx ? 'w-10 bg-white' : 'w-2.5 bg-white/40 hover:bg-white/60'}`} 
                   aria-label={`Ir a slide ${i + 1}`}
                 />
@@ -191,23 +191,24 @@ export function Hero({
           </div>
           
           {/* Review Badge */}
-          <div className="absolute bottom-4 -left-8 bg-white p-6 rounded-3xl shadow-elegant-xl border border-border max-w-[240px] z-20">
+          <div className="absolute bottom-10 -left-10 bg-white/95 backdrop-blur-md p-6 rounded-[2rem] shadow-luxe border border-accent/10 max-w-[260px] z-20 hover:scale-105 transition-transform cursor-pointer">
             <div className="flex gap-1 mb-3">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-5 h-5 fill-accent text-accent" />
               ))}
             </div>
-            <p className="text-base font-bold text-primary leading-snug">
-              4.9/5 de 2,000+ clientes satisfechos
+            <p className="text-sm font-bold text-primary leading-snug">
+              <span className="text-accent font-black text-lg block mb-1">4.9/5</span>
+              Excelencia garantizada con más de 2,000 servicios completados.
             </p>
           </div>
         </div>
       </div>
       
       {/* Dynamic Background Accents */}
-      <div className="absolute inset-0 opacity-[0.03] -z-10 bg-[radial-gradient(#0F172A_1px,transparent_1px)] [background-size:32px_32px]" />
+      <div className="absolute inset-0 opacity-[0.05] -z-10 bg-[radial-gradient(#BF953F_1px,transparent_1px)] [background-size:32px_32px]" />
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] -mr-64 -mt-64" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -ml-64 -mb-64" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] -ml-64 -mb-64" />
     </section>
   );
 }

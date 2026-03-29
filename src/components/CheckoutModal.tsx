@@ -53,6 +53,7 @@ export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessag
         body: JSON.stringify({
           items,
           frequency: cartData.frequency,
+          formData, // Enviamos los datos del cliente (nombre, dirección, etc)
           success_url: window.location.origin + '/gracias',
           cancel_url: window.location.href,
         })

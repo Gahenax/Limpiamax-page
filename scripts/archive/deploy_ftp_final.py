@@ -11,31 +11,31 @@ def deploy_to_ftp():
     REMOTE_DIR = "public_html"
     LOCAL_DIR = r"c:\Users\jotam\OneDrive\Desktop\GahenaxAI\limpiamax-web\out"
 
-    print(f"🚀 Iniciando despliegue FTP en {FTP_HOST}...")
+    print(f" Iniciando despliegue FTP en {FTP_HOST}...")
 
     try:
         # Connect to FTP
         ftp = ftplib.FTP(FTP_HOST)
         ftp.login(FTP_USER, FTP_PASS or "")
-        print("✅ Conexión FTP establecida.")
+        print(" Conexión FTP establecida.")
 
         # List remote root
-        print("📁 Listando directorio raíz remoto (.):")
+        print(" Listando directorio raíz remoto (.):")
         try:
             items = []
             ftp.retrlines('LIST', items.append)
             for item in items: print(f"  - {item}")
-        except Exception as e: print(f"❌ Error al listar: {e}")
+        except Exception as e: print(f" Error al listar: {e}")
 
         # List parent directory (..)
-        print("📁 Listando directorio padre (..):")
+        print(" Listando directorio padre (..):")
         try:
             items = []
             ftp.cwd('..')
             ftp.retrlines('LIST', items.append)
             for item in items: print(f"  - {item}")
             ftp.cwd('u314799704.gahenaxaisolutions.xyz') # Regresar a la carpeta de usuario si es necesario
-        except Exception as e: print(f"❌ Error al listar padre: {e}")
+        except Exception as e: print(f" Error al listar padre: {e}")
 
         # Navigate to target directory if found
         potential_dirs = ["public_html", "www", "html", "."]
@@ -44,13 +44,13 @@ def deploy_to_ftp():
             try:
                 ftp.cwd(d)
                 found_dir = d
-                print(f"📂 Entrando en: {d}")
+                print(f" Entrando en: {d}")
                 break
             except:
                 continue
 
         if not found_dir:
-            print("❌ No se encontró un directorio de despliegue estándar.")
+            print(" No se encontró un directorio de despliegue estándar.")
             ftp.quit()
             return
 
@@ -59,7 +59,7 @@ def deploy_to_ftp():
                 l_item_path = os.path.join(local_path, item)
                 if os.path.isfile(l_item_path):
                     with open(l_item_path, 'rb') as f:
-                        print(f"📤 Subiendo archivo: {item}")
+                        print(f" Subiendo archivo: {item}")
                         ftp.storbinary(f'STOR {item}', f)
                 elif os.path.isdir(l_item_path):
                     try:
@@ -75,10 +75,10 @@ def deploy_to_ftp():
         upload_directory(LOCAL_DIR, "")
 
         ftp.quit()
-        print("🎉 ¡Despliegue completado con éxito! La web ya debería estar online en gahenaxaisolutions.xyz")
+        print(" ¡Despliegue completado con éxito! La web ya debería estar online en gahenaxaisolutions.xyz")
 
     except Exception as e:
-        print(f"❌ Error durante el despliegue: {e}")
+        print(f" Error durante el despliegue: {e}")
 
 if __name__ == "__main__":
     deploy_to_ftp()

@@ -1,6 +1,7 @@
 node_modules/
 .next/
 out/
+secrets/
 limpiamax_key*
 service-account-key.json
 config_filezilla_limpiamax.xml

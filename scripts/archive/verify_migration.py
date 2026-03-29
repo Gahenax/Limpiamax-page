@@ -3,8 +3,8 @@ import requests
 import dns.resolver
 
 def monitor_migration(domain, target_ns, source_url):
-    print(f"🕵️ Monitoreando migración de: {domain}")
-    print(f"🎯 Objetivo Nameservers: {target_ns}")
+    print(f" Monitoreando migración de: {domain}")
+    print(f" Objetivo Nameservers: {target_ns}")
     
     while True:
         try:
@@ -21,10 +21,10 @@ def monitor_migration(domain, target_ns, source_url):
             except:
                 parity = "Unreachable"
 
-            print(f"[{time.strftime('%H:%M:%S')}] NS: {'✅' if ns_ok else '⏳'} | Status: {parity}")
+            print(f"[{time.strftime('%H:%M:%S')}] NS: {'' if ns_ok else '⏳'} | Status: {parity}")
             
             if ns_ok and parity == "OK":
-                print("\n🎉 ¡Migración confirmada! El DNS ha propagado y el sitio responde.")
+                print("\n ¡Migración confirmada! El DNS ha propagado y el sitio responde.")
                 break
                 
         except Exception as e:
