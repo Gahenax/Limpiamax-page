@@ -48,9 +48,10 @@ const DEFAULT_SLIDES = [
   }
 ];
 
+import Image from 'next/image';
+
 export function Hero({
-  badgeText,
-  title
+  badgeText
 }: HeroProps) {
   const getInitialIndex = (badge?: string) => {
     if (!badge) return 0;
@@ -64,18 +65,6 @@ export function Hero({
 
   const [currentIdx, setCurrentIdx] = useState(() => getInitialIndex(badgeText));
   const autoplayRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Autoplay logic
-  const startAutoplay = () => {
-    stopAutoplay();
-    autoplayRef.current = setInterval(() => {
-      setCurrentIdx((prev) => (prev + 1) % DEFAULT_SLIDES.length);
-    }, 6000); // 6 seconds per slide
-  };
-
-  const stopAutoplay = () => {
-    if (autoplayRef.current) clearInterval(autoplayRef.current);
-  };
 
   useEffect(() => {
     autoplayRef.current = setInterval(() => {
@@ -150,11 +139,13 @@ export function Hero({
 
         <div className="relative group perspective-1000">
           <div className="aspect-[4/5] rounded-[3.5rem] overflow-hidden shadow-luxe border-[1px] border-border/50 bg-secondary relative">
-            <img 
+            <Image 
               src={DEFAULT_SLIDES[currentIdx].url} 
-              className="w-full h-full object-cover transition-all duration-700 ease-in-out scale-100 group-hover:scale-105" 
+              className="object-cover transition-all duration-700 ease-in-out scale-100 group-hover:scale-105" 
               alt={DEFAULT_SLIDES[currentIdx].alt}
-              loading="eager" 
+              fill
+              priority={true}
+              sizes="(max-width: 768px) 100vw, 50vw"
               key={currentIdx}
             />
             

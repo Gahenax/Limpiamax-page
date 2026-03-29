@@ -3,6 +3,12 @@ import { ContactSection } from '@/components/home/ContactSection';
 import { Footer } from '@/components/home/Footer';
 import { BottomNav } from '@/components/home/BottomNav';
 import { MessageCircle } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Contacto y Presupuestos | LimpiaMax Barcelona',
+  description: 'Contacta con LimpiaMax para un presupuesto personalizado de limpieza en Barcelona. Atención inmediata vía WhatsApp o email.',
+};
 
 export default function ContactoPage() {
   return (

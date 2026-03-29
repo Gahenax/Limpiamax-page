@@ -3,6 +3,12 @@ import { ShopSection } from '@/components/home/ShopSection';
 import { Footer } from '@/components/home/Footer';
 import { BottomNav } from '@/components/home/BottomNav';
 import { MessageCircle } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Nuestros Servicios de Limpieza en Barcelona | LimpiaMax',
+  description: 'Descubre nuestros servicios personalizados: Limpieza de casas, tapizados, mudanzas y fines de obra. Reserva con precio cerrado e inmediato en Barcelona.',
+};
 
 export default function ServiciosPage() {
   return (
