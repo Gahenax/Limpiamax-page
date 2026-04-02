@@ -1,0 +1,33 @@
+# --- GAHENAX PASSENGER CONFIG ---
+# Esta seccion permite que Hostinger arranque la app Next.js automaticamente
+PassengerAppRoot /home/u314799704/domains/limpiamaxweb.com/nodejs
+PassengerAppType node
+PassengerNodejs /opt/alt/alt-nodejs20/root/usr/bin/node
+PassengerStartupFile server.js
+PassengerBaseURI /
+PassengerRestartDir /home/u314799704/domains/limpiamaxweb.com/nodejs/tmp
+
+# --- GAHENAX SECURITY ---
+# Bloqueo estricto de secretos y archivos de respaldo
+<FilesMatch "^\.env$|^\.env\..*$">
+    Require all denied
+</FilesMatch>
+
+# Forzar variables de entorno (Evita cache de Passenger)
+# Forzar variables de entorno (Managed in server .env or Hostinger Panel)
+# SetEnv STRIPE_SECRET_KEY [MANAGED]
+# SetEnv STRIPE_WEBHOOK_SECRET [MANAGED]
+# SetEnv GOOGLE_SHEET_ID_SALES [MANAGED]
+# SetEnv GOOGLE_SHEET_ID_CONTACTS [MANAGED]
+SetEnv NEXT_PUBLIC_BASE_URL "https://limpiamaxweb.com"
+SetEnv NEXTAUTH_URL "https://limpiamaxweb.com"
+
+<FilesMatch "\.(zip|rar|tar\.gz|tar|sql|bak|key|pub)$">
+    Require all denied
+</FilesMatch>
+
+# Deshabilitar listado de directorios
+Options -Indexes
+
+# Bloquear acceso a carpetas internas de Git
+RedirectMatch 404 /\.git(/.*)?$

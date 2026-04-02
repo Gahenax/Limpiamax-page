@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { logToSheet } from '@/lib/sheets-logger';
+// Build Force Sync ID: 3105-01
 import { analyzeMessage } from '@/lib/ia_helper';
 
 export async function POST(request: Request) {

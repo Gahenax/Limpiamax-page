@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { headers } from 'next/headers';
 import { logToSheet, createCalendarEvent } from '@/lib/sheets-logger';
+// Build Force Sync ID: 3105-02
 import { mapStripeSessionToOrderRow } from '@/lib/orders-kernel';
 import { SHEETS_CONFIG } from '@/lib/constants';
 
