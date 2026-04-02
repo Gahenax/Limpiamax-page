@@ -10,3 +10,23 @@ export const SERVICE_STATUS = {
   COMPLETED: 'Completado',
   PAID: 'Pagado'
 };
+
+// --- Google Sheets Industrial Architecture (Sovereign Sync) ---
+export const SHEETS_CONFIG = {
+  TAB_VENTAS: 'Hoja 1',
+  TAB_CONTACTOS: 'CONTACTOS',
+  RANGE_VENTAS: 'Hoja 1!A1',
+  RANGE_CONTACTOS: 'CONTACTOS!A1'
+};
+
+// --- Master Service Catalog (Single Source of Truth) ---
+export const MASTER_SERVICES = [
+  'Limpieza General',
+  'Limpieza de Casa (Básica)',
+  'Limpieza Profunda',
+  'Limpieza de Oficina',
+  'Limpieza Fin de Obra',
+  'Limpieza de Mudanza',
+  'Limpieza de Tapicería',
+  'Limpiezas Industriales'
+];

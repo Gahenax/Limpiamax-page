@@ -272,36 +272,36 @@ export function ShopSection({ initialCategory, initialServiceTitle }: ShopSectio
               <>Mínimizar <ChevronDown className="w-5 h-5 ml-1" /></>
             )}
           </button>
-          <div className={`glass-gold rounded-[4rem] rounded-b-none lg:rounded-[4rem] border-white/40 flex flex-col md:flex-row items-center justify-between gap-6 lg:gap-10 w-full transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1) origin-bottom ${
-            isCartMinimized ? 'h-0 max-h-0 p-0 opacity-0 overflow-hidden border-none translate-y-20' : 'max-h-[600px] p-10 lg:p-12 mb-12 opacity-100 shadow-gold-glow animate-blur-reveal'
+          <div className={`glass-gold rounded-[2.5rem] rounded-b-none lg:rounded-[2.5rem] border-white/20 flex flex-col md:flex-row items-center justify-between gap-4 lg:gap-6 w-full transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1) origin-bottom ${
+            isCartMinimized ? 'h-0 max-h-0 p-0 opacity-0 overflow-hidden border-none translate-y-20' : 'max-h-[500px] p-5 lg:p-6 mb-6 opacity-100 shadow-gold-glow animate-blur-reveal'
           }`}>
-            <div className="text-white w-full md:w-auto flex justify-between items-center md:block">
+            <div className="text-primary w-full md:w-auto flex justify-between items-center md:block">
               <div>
-                <p className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-accent/80 mb-1">
+                <p className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-accent mb-0.5">
                   Tu Selección
                   <span className="bg-danger/20 text-white border border-danger/50 px-2 py-0.5 rounded-full text-[9px] animate-pulse flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-danger"></span>
                     Solo 2 slots hoy
                   </span>
                 </p>
-                <div className="flex items-baseline gap-3">
-                  <span className="text-3xl md:text-4xl font-black tabular-nums tracking-tighter">€{calculateTotal().toFixed(2)}</span>
-                  <span className="text-sm font-bold text-white/60">{cart.services.length} {cart.services.length === 1 ? 'servicio' : 'servicios'}</span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-xl md:text-2xl font-black tabular-nums tracking-tighter text-primary">€{calculateTotal().toFixed(2)}</span>
+                  <span className="text-[10px] font-bold text-primary/40 tracking-tight">{cart.services.length} {cart.services.length === 1 ? 'servicio' : 'servicios'}</span>
                 </div>
               </div>
             </div>
             
-            <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center justify-center gap-3 w-full md:w-auto">
+            <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center justify-center gap-2 w-full md:w-auto">
               <button 
                 data-track="checkout-start"
                 onClick={() => setIsCheckoutOpen(true)}
-                className="w-full sm:w-auto px-8 py-4 bg-accent text-white rounded-2xl font-black text-lg shadow-xl shadow-gold-glow hover:scale-105 active:scale-[0.98] transition-all flex items-center justify-center"
+                className="w-full sm:w-auto px-5 py-2.5 bg-accent text-white rounded-xl font-black text-sm shadow-lg shadow-gold-glow hover:scale-105 active:scale-[0.98] transition-all flex items-center justify-center"
               >
                 Finalizar Reserva
               </button>
               <button 
                 onClick={() => setCart({ services: [], extras: {}, frequency: 'once', daysPerWeek: 1 })}
-                className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white/5 text-white/60 font-bold text-sm hover:bg-white/10 transition-colors"
+                className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-primary/5 text-primary/40 font-black text-[10px] uppercase tracking-widest hover:bg-primary/10 transition-colors"
               >
                 Vaciar Carrito
               </button>
