@@ -25,39 +25,29 @@ export async function POST(req: NextRequest) {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error(`Webhook Error: ${message}`);
     return NextResponse.json({ error: `Webhook Error: ${message}` }, { status: 400 });
   }
 
   // Handle the event
   switch (event.type) {
-    case 'checkout.session.completed':
+    case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session;
-      console.log(`Payment successful for session: ${session.id}`);
-      
       const spreadsheetId = process.env.GOOGLE_SHEET_ID_SALES;
       const metadata = session.metadata || {};
-      
+
       // 1. Log to Google Sheets (Arquitectura de 11 Columnas Centralizada)
       if (spreadsheetId) {
         try {
           const orderRow = mapStripeSessionToOrderRow(session);
-          
-          await logToSheet(
-            spreadsheetId, 
-            SHEETS_CONFIG.RANGE_VENTAS, 
-            [orderRow]
-          );
-          
-          console.log(`✅ Venta ${session.id} registrada en Sheets (Kernel v2).`);
-        } catch (logErr) {
-          console.error('Failed to log sale to sheet:', logErr);
+          await logToSheet(spreadsheetId, SHEETS_CONFIG.RANGE_VENTAS, [orderRow]);
+        } catch {
+          // Error logged in sheets-logger resilience system
         }
       }
 
       // 2. Agendar en Google Calendar (Agenda Soberana)
       try {
-        const startTime = new Date(); // Fallback si no hay metadata
+        const startTime = new Date();
         const endTime = new Date(startTime.getTime() + 2 * 60 * 60 * 1000);
 
         await createCalendarEvent({
@@ -67,19 +57,15 @@ export async function POST(req: NextRequest) {
           startTime: startTime.toISOString(),
           endTime: endTime.toISOString()
         });
-        console.log('✅ Servicio agendado en Calendar.');
-      } catch (calErr) {
-        console.error('Failed to create calendar event:', calErr);
+      } catch {
+        // Error logged in sheets-logger resilience system
       }
-
-      console.log('Order processed and synced with Admin Hub.');
       break;
+    }
     case 'payment_intent.payment_failed':
-      const paymentIntent = event.data.object as Stripe.PaymentIntent;
-      console.log(`Payment failed: ${paymentIntent.id}`);
       break;
     default:
-      console.log(`Unhandled event type ${event.type}`);
+      break;
   }
 
   return NextResponse.json({ received: true });

@@ -40,8 +40,7 @@ export async function getStripeOrders(limit = 50): Promise<BookingOrder[]> {
         services: session.metadata?.services ? JSON.parse(session.metadata.services) : [],
         whatsappSent: session.metadata?.whatsappSent === 'true',
       }));
-  } catch (error) {
-    console.error('Error fetching Stripe orders:', error);
+  } catch {
     return [];
   }
 }
@@ -52,8 +51,7 @@ export async function updateOrderMetadata(sessionId: string, metadata: Record<st
       metadata,
     });
     return { success: true };
-  } catch (error) {
-    console.error('Error updating metadata:', error);
-    return { success: false, error };
+  } catch {
+    return { success: false };
   }
 }

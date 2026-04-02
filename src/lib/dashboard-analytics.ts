@@ -91,8 +91,7 @@ export async function getDashboardData() {
         status: row[7] || 'N/A'
       })),
     };
-  } catch (error) {
-    console.error('Error fetching dashboard data:', error);
+  } catch {
     return null;
   }
 }

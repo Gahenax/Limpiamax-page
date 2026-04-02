@@ -7,11 +7,16 @@ export async function POST(request: NextRequest) {
     apiVersion: '2024-12-18.acacia',
   });
   try {
-    const { email } = await request.json();
+    const body = await request.json();
+    const rawEmail = String(body.email || '').trim().slice(0, 200);
+
+    if (!rawEmail || !rawEmail.includes('@')) {
+      return NextResponse.json({ error: 'Email inválido' }, { status: 400 });
+    }
 
     const account = await stripe.accounts.create({
       type: 'express',
-      email: email,
+      email: rawEmail,
       capabilities: {
         card_payments: { requested: true },
         transfers: { requested: true },
@@ -21,8 +26,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       accountId: account.id,
     });
-  } catch (error: unknown) {
-    console.error('Error creating Stripe account:', error);
-    return NextResponse.json({ error: error instanceof Error ? error.message : String(error) }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: 'Error al crear la cuenta' }, { status: 500 });
   }
 }

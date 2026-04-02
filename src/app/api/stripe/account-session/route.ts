@@ -33,8 +33,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       client_secret: accountSession.client_secret,
     });
-  } catch (error: unknown) {
-    console.error('Error creating Account Session:', error);
-    return NextResponse.json({ error: error instanceof Error ? error.message : String(error) }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: 'Error al crear la sesión' }, { status: 500 });
   }
 }

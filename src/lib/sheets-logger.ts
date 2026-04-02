@@ -38,9 +38,8 @@ async function logFailedEvent(type: string, data: Record<string, unknown>, error
     }
     currentLog.push(entry);
     fs.writeFileSync(FAILED_LOG_PATH, JSON.stringify(currentLog, null, 2));
-    console.error(`🛡️ Evento fallido guardado en ${FAILED_LOG_PATH}`);
-  } catch (fsErr) {
-    console.error('CRITICAL: Failed to write to resilience log:', fsErr);
+  } catch {
+    // Filesystem write failure — cannot recover
   }
 }
 
@@ -49,7 +48,6 @@ async function logFailedEvent(type: string, data: Record<string, unknown>, error
  */
 export async function logToSheet(spreadsheetId: string | undefined, range: string, values: (string | number)[][]) {
   if (!spreadsheetId) {
-    console.warn('Google Sheets Sync skipped: Spreadsheet ID not provided.');
     return null;
   }
 
@@ -66,7 +64,6 @@ export async function logToSheet(spreadsheetId: string | undefined, range: strin
     });
     return response.data;
   } catch (error: unknown) {
-    console.error('Error logging to Google Sheets:', error);
     await logFailedEvent('SHEETS_SYNC', { spreadsheetId, range, values }, error);
     throw error;
   }
@@ -105,10 +102,8 @@ export async function createCalendarEvent(eventDetails: {
       requestBody: event,
     });
 
-    console.log('✅ Evento agendado en Calendar:', response.data.htmlLink);
     return response.data;
   } catch (error: unknown) {
-    console.error('Error creating calendar event:', error);
     await logFailedEvent('CALENDAR_SYNC', { eventDetails, calendarId }, error);
     throw error;
   }

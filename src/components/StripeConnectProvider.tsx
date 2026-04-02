@@ -56,7 +56,6 @@ export const StripeConnectProvider: React.FC<StripeConnectProviderProps> = ({ ch
         setInstance(stripeConnectInstance);
         setIsLoading(false);
       } catch (err: unknown) {
-        console.error('Failed to initialize Stripe Connect:', err);
         setError(err instanceof Error ? err.message : String(err));
         setIsLoading(false);
       }

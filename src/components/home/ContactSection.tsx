@@ -75,8 +75,7 @@ export function ContactSection() {
                   });
                   if (res.ok) alert('¡Mensaje enviado con éxito! Nos contactaremos pronto.');
                   else alert('Hubo un error al enviar el mensaje.');
-                } catch (err) {
-                  console.error(err);
+                } catch {
                   alert('Error de conexión.');
                 }
               }}

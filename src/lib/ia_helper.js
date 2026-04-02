@@ -20,8 +20,6 @@ export async function analyzeMessage(name, phone, email, message) {
       apiEndpoint: `${location}-aiplatform.googleapis.com`,
     });
 
-    console.log(`Analyzing message from ${name}...`);
-    
     // Logic for categorization and structuring
     const category = "Presupuesto"; 
     
@@ -40,7 +38,6 @@ export async function analyzeMessage(name, phone, email, message) {
       waUserLink
     };
   } catch (error) {
-    console.error('Error analyzing message with IA:', error);
     throw error;
   }
 }

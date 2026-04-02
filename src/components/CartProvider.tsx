@@ -221,32 +221,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isCartMinimized, setIsCartMinimized] = useState(false);
   const [isBannerVisible, setIsBannerVisible] = useState(true);
-  const [cart, setCart] = useState<{ 
-    services: string[]; 
+  const [cart, setCart] = useState<{
+    services: string[];
     extras: Record<string, string[]>;
     frequency: Frequency;
     daysPerWeek: number;
-  }>({
-    services: [],
-    extras: {},
-    frequency: 'once',
-    daysPerWeek: 1
+  }>(() => {
+    const defaultCart = { services: [], extras: {}, frequency: 'once' as Frequency, daysPerWeek: 1 };
+    if (typeof window === 'undefined') return defaultCart;
+    try {
+      const savedCart = localStorage.getItem('limpiamax-cart');
+      if (savedCart) return { ...defaultCart, ...JSON.parse(savedCart) };
+    } catch {}
+    return defaultCart;
   });
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-        const savedCart = localStorage.getItem('limpiamax-cart');
-        if (savedCart) {
-          try {
-            const parsed = JSON.parse(savedCart);
-            // eslint-disable-next-line
-            setCart(prev => ({ ...prev, ...parsed }));
-          } catch (e) {
-            console.error('Error loading cart:', e);
-          }
-        }
-    }
-  }, []);
 
   useEffect(() => {
     localStorage.setItem('limpiamax-cart', JSON.stringify(cart));

@@ -64,8 +64,7 @@ export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessag
       } else {
         throw new Error(data.error || 'No URL returned');
       }
-    } catch (err) {
-      console.error('Stripe Checkout Error:', err);
+    } catch {
       alert('Error al conectar con Stripe. Intenta con WhatsApp.');
     }
   };

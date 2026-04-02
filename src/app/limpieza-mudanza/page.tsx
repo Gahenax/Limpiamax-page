@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { BannerLayoutWrapper } from '@/components/home/BannerLayoutWrapper';
 import { Hero } from '@/components/home/Hero';
 import { PromoBar } from '@/components/home/PromoBar';
@@ -73,7 +74,7 @@ export default function MudanzaPage() {
               </div>
               <div className="relative">
                 <div className="aspect-square rounded-[4rem] overflow-hidden shadow-gold-glow relative animate-float">
-                  <img src="/hero-premium-5.png" alt="Limpieza de mudanzas" className="w-full h-full object-cover" />
+                  <Image src="/hero-premium-5.png" alt="Limpieza de mudanzas" fill className="object-cover" />
                   <div className="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-black/60 to-transparent">
                     <p className="text-white font-black text-2xl tracking-tight">Expertos en Barcelona Ciudad</p>
                     <p className="text-white/70 font-medium">Desde mudanzas locales hasta residenciales.</p>

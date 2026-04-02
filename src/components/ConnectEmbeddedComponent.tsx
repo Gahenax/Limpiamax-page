@@ -3,9 +3,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useStripeConnect } from './StripeConnectProvider';
 
+interface StripeComponent {
+  mount: (container: HTMLElement) => void;
+  unmount: () => void;
+}
+
 interface ConnectEmbeddedComponentProps {
   componentName: 'onboarding' | 'payments' | 'payouts';
-  _options?: Record<string, unknown>;
 }
 
 export const ConnectEmbeddedComponent: React.FC<ConnectEmbeddedComponentProps> = ({ componentName }) => {
@@ -14,8 +18,7 @@ export const ConnectEmbeddedComponent: React.FC<ConnectEmbeddedComponentProps> =
 
   useEffect(() => {
     if (stripeConnectInstance && containerRef.current) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      let component: any;
+      let component: StripeComponent | undefined;
 
       switch (componentName) {
         case 'onboarding':
@@ -34,9 +37,7 @@ export const ConnectEmbeddedComponent: React.FC<ConnectEmbeddedComponentProps> =
       }
 
       return () => {
-        if (component) {
-          component.unmount();
-        }
+        component?.unmount();
       };
     }
   }, [stripeConnectInstance, componentName]);

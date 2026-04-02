@@ -10,9 +10,12 @@ const handler = NextAuth({
         password: { label: "PIN", type: "password" }
       },
       async authorize(credentials) {
-        // Validación soberana contra las variables de entorno
-        const adminUser = process.env.ADMIN_USER || "LimpiamaxAdmin";
-        const adminPin = process.env.ADMIN_PIN || "limpiamax2026";
+        const adminUser = process.env.ADMIN_USER;
+        const adminPin = process.env.ADMIN_PIN;
+
+        if (!adminUser || !adminPin) {
+          return null;
+        }
 
         if (
           credentials?.username === adminUser &&
