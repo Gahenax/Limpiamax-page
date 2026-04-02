@@ -8,12 +8,13 @@ interface ConnectEmbeddedComponentProps {
   _options?: Record<string, unknown>;
 }
 
-export const ConnectEmbeddedComponent: React.FC<ConnectEmbeddedComponentProps> = ({ componentName, _options = {} }) => {
+export const ConnectEmbeddedComponent: React.FC<ConnectEmbeddedComponentProps> = ({ componentName }) => {
   const { stripeConnectInstance } = useStripeConnect();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (stripeConnectInstance && containerRef.current) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let component: any;
 
       switch (componentName) {

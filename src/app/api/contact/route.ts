@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { logToSheet } from '@/lib/sheets_logger';
+import { logToSheet } from '@/lib/sheets-logger';
 import { analyzeMessage } from '@/lib/ia_helper';
 
 export async function POST(request: Request) {
@@ -11,19 +11,20 @@ export async function POST(request: Request) {
     const iaResult = await analyzeMessage(name, phone, email, message || 'No message provided');
 
     // 2. Log to Google Sheets
-    // Replace with your actual Spreadsheet ID
-    const SPREADSHEET_ID = '1_xYv-L2yG-uN6Aov7-j5ZqW9V4ZzY07vWzY07vWzY0'; 
-    const range = 'Contactos!A1';
+    const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID_CONTACTS; 
+    const range = 'Hoja 1!A1';
     const timestamp = new Date().toLocaleString();
     
-    await logToSheet(SPREADSHEET_ID, range, [[
-      timestamp,
-      name,
-      email,
-      phone,
-      message,
-      iaResult.category
-    ]]);
+    if (SPREADSHEET_ID) {
+      await logToSheet(SPREADSHEET_ID, range, [[
+        timestamp,
+        name,
+        email,
+        phone,
+        message,
+        iaResult.category
+      ]]);
+    }
 
     return NextResponse.json({ 
       success: true, 

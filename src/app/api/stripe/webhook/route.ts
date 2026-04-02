@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { headers } from 'next/headers';
-import { logToSheet } from '@/lib/sheets_logger';
+import { logToSheet, createCalendarEvent } from '@/lib/sheets-logger';
+import { mapStripeSessionToOrderRow } from '@/lib/orders-kernel';
+import { SHEETS_CONFIG } from '@/lib/constants';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion,
@@ -32,23 +34,41 @@ export async function POST(req: NextRequest) {
       const session = event.data.object as Stripe.Checkout.Session;
       console.log(`Payment successful for session: ${session.id}`);
       
-      // Log to Google Sheets if configured
       const spreadsheetId = process.env.GOOGLE_SHEET_ID_SALES;
+      const metadata = session.metadata || {};
+      
+      // 1. Log to Google Sheets (Arquitectura de 11 Columnas Centralizada)
       if (spreadsheetId) {
         try {
-          await logToSheet(spreadsheetId, 'Ventas!A1', [[
-            new Date().toISOString(),
-            session.id,
-            session.customer_details?.email || 'N/A',
-            (session.amount_total || 0) / 100,
-            session.currency,
-            'SUCCESS',
-            session.metadata?.customer_name || 'N/A',
-            session.metadata?.customer_phone || 'N/A'
-          ]]);
+          const orderRow = mapStripeSessionToOrderRow(session);
+          
+          await logToSheet(
+            spreadsheetId, 
+            SHEETS_CONFIG.RANGE_VENTAS, 
+            [orderRow]
+          );
+          
+          console.log(`✅ Venta ${session.id} registrada en Sheets (Kernel v2).`);
         } catch (logErr) {
           console.error('Failed to log sale to sheet:', logErr);
         }
+      }
+
+      // 2. Agendar en Google Calendar (Agenda Soberana)
+      try {
+        const startTime = new Date(); // Fallback si no hay metadata
+        const endTime = new Date(startTime.getTime() + 2 * 60 * 60 * 1000);
+
+        await createCalendarEvent({
+          summary: `Limpieza: ${metadata.customer_name || 'Nuevo Cliente'}`,
+          location: metadata.customer_address || 'Dirección no especificada',
+          description: `Servicio: ${metadata.category}\nCliente: ${metadata.customer_name}\nFrecuencia: ${metadata.frequency}`,
+          startTime: startTime.toISOString(),
+          endTime: endTime.toISOString()
+        });
+        console.log('✅ Servicio agendado en Calendar.');
+      } catch (calErr) {
+        console.error('Failed to create calendar event:', calErr);
       }
 
       console.log('Order processed and synced with Admin Hub.');

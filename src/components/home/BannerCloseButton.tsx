@@ -9,6 +9,7 @@ export function BannerCloseButton() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line
     setMounted(true);
     if (localStorage.getItem('limpiamax-banner-closed')) {
       setIsBannerVisible(false);

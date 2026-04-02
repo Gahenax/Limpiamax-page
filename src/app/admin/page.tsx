@@ -1,4 +1,5 @@
 import { getStripeOrders } from '@/lib/stripe-orders';
+import { getDashboardData } from '@/lib/dashboard-analytics';
 import { OrdersDashboard } from '@/components/admin/OrdersDashboard';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
@@ -11,11 +12,24 @@ export default async function AdminPage() {
     redirect('/admin/login');
   }
 
-  const orders = await getStripeOrders(50);
+  // 🏛️ Fetch de Datos Soberanos
+  const [orders, dashboardData] = await Promise.all([
+    getStripeOrders(50),
+    getDashboardData()
+  ]);
+
+  const dashboard = dashboardData || {
+    kpis: { totalRevenue: 0, totalSales: 0, totalLeads: 0, conversionRate: 0, averageTicket: 0 },
+    chartData: [],
+    recentActivity: []
+  };
 
   return (
     <div className="bg-[#F9FAFB] min-h-screen">
-      <OrdersDashboard initialOrders={orders} />
+      <OrdersDashboard 
+        initialOrders={orders} 
+        dashboardData={dashboard} 
+      />
     </div>
   );
 }

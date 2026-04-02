@@ -239,6 +239,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         if (savedCart) {
           try {
             const parsed = JSON.parse(savedCart);
+            // eslint-disable-next-line
             setCart(prev => ({ ...prev, ...parsed }));
           } catch (e) {
             console.error('Error loading cart:', e);

@@ -43,6 +43,8 @@ export async function POST(request: NextRequest) {
       };
     });
 
+    const mainService = items.length > 0 ? items[0].title : 'Limpieza General';
+
     const session = await stripe.checkout.sessions.create({
       mode: isSubscription ? 'subscription' : 'payment',
       line_items,
@@ -51,7 +53,8 @@ export async function POST(request: NextRequest) {
         customer_email: formData.email,
         customer_phone: formData.telefono,
         customer_address: `${formData.calle}, ${formData.piso}, ${formData.cp}`,
-        frequency: frequency || 'once'
+        frequency: frequency || 'once',
+        category: mainService
       },
       success_url: success_url + '?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: cancel_url,

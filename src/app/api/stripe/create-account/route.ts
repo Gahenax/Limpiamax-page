@@ -3,7 +3,8 @@ import Stripe from 'stripe';
 
 export async function POST(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2024-12-18.acacia' as any,
+    // @ts-expect-error - overriding strict apiVersion typing
+    apiVersion: '2024-12-18.acacia',
   });
   try {
     const { email } = await request.json();
@@ -20,8 +21,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       accountId: account.id,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating Stripe account:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }

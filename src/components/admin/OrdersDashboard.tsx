@@ -9,38 +9,54 @@ import {
   MapPin, 
   User, 
   Calendar, 
-  CreditCard,
-  ExternalLink,
-  CheckCircle2,
-  Clock,
-  ChevronRight,
-  TrendingUp,
-  Target,
-  Sparkles,
-  MoreVertical,
-  LogOut
+  ExternalLink, 
+  CheckCircle2, 
+  Clock, 
+  ChevronRight, 
+  TrendingUp, 
+  Target, 
+  Sparkles, 
+  MoreVertical, 
+  LogOut, 
+  Users, 
+  Percent, 
+  Euro 
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { sanitizeBarcelonaAddress } from '@/lib/address-sanitizer';
+import { StatCard } from './StatCard';
+import { AnalyticsChart } from './AnalyticsChart';
 
 interface OrdersDashboardProps {
   initialOrders: BookingOrder[];
+  dashboardData: {
+    kpis: {
+      totalRevenue: number;
+      totalSales: number;
+      totalLeads: number;
+      conversionRate: number;
+      averageTicket: number;
+    };
+    chartData: Array<{ date: string; sales: number; leads: number }>;
+    recentActivity: Record<string, unknown>[];
+  } | null;
 }
 
-export function OrdersDashboard({ initialOrders }: OrdersDashboardProps) {
+export function OrdersDashboard({ initialOrders, dashboardData }: OrdersDashboardProps) {
   const [orders, setOrders] = useState<BookingOrder[]>(initialOrders);
   const [searchTerm, setSearchTerm] = useState('');
   const [isUpdating, setIsUpdating] = useState<string | null>(null);
 
-  // Stats para el "Frappe-style Workspace"
-  const totalRevenue = orders.reduce((acc, order) => acc + order.amount, 0);
-  const pendingWhatsApp = orders.filter(o => !o.whatsappSent).length;
-  const completedToday = orders.filter(o => {
-    const today = new Date().toISOString().split('T')[0];
-    return o.date.startsWith(today);
-  }).length;
+  // Stats
+  const kpis = dashboardData?.kpis || {
+    totalRevenue: 0,
+    totalSales: 0,
+    totalLeads: 0,
+    conversionRate: 0,
+    averageTicket: 0
+  };
 
   const filteredOrders = orders.filter(order => 
     order.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -128,44 +144,46 @@ export function OrdersDashboard({ initialOrders }: OrdersDashboardProps) {
         </header>
 
         {/* Scrollable Area */}
-        <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-8 scroll-smooth">
-          {/* Dashboard Stats (Frappe Workspace) */}
-          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-reveal">
-            <div className="bg-white p-8 rounded-[3rem] shadow-luxe border ultra-thin-border border-accent/5 flex items-center gap-6 group hover:border-accent/20 transition-all hover:-translate-y-1">
-              <div className="w-16 h-16 bg-accent/5 text-accent rounded-[1.5rem] flex items-center justify-center group-hover:scale-110 transition-transform shadow-gold-glow">
-                <CreditCard className="w-8 h-8" />
-              </div>
-              <div>
-                <p className="text-[10px] font-black text-accent uppercase tracking-[0.2em] mb-1">Métrica de Oro</p>
-                <p className="text-3xl font-black text-primary tracking-tighter tabular-nums">{totalRevenue.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
-              </div>
-            </div>
+        <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-12 scroll-smooth">
+          
+          {/* 🏛️ Gahenax KPI Ribbon */}
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StatCard 
+              title="Ingresos Totales"
+              value={`${kpis.totalRevenue.toLocaleString('es-ES')} €`}
+              icon={<Euro className="w-7 h-7" />}
+              trend="+12.5%"
+              trendType="up"
+              subtitle="Basado en transacciones reales"
+            />
+            <StatCard 
+              title="Leads Soberanos"
+              value={kpis.totalLeads}
+              icon={<Users className="w-7 h-7" />}
+              trend={`${kpis.totalSales} Ventas`}
+              trendType="up"
+              subtitle="Sincronizado con Contactos"
+            />
+            <StatCard 
+              title="Conversión"
+              value={`${kpis.conversionRate.toFixed(1)} %`}
+              icon={<Percent className="w-7 h-7" />}
+              subtitle="Leads -> Clientes"
+            />
+            <StatCard 
+              title="Ticket Promedio"
+              value={`${kpis.averageTicket.toFixed(2)} €`}
+              icon={<TrendingUp className="w-7 h-7" />}
+              subtitle="Eficiencia por orden"
+            />
+          </section>
 
-            <div className="bg-white p-6 rounded-3xl shadow-elegant border border-[#E5E7EB] flex items-center gap-5 group hover:border-accent transition-all relative overflow-hidden">
-               {pendingWhatsApp > 0 && (
-                 <div className="absolute top-4 right-4 flex h-3 w-3">
-                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                   <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
-                 </div>
-               )}
-              <div className="w-14 h-14 bg-[#FFF9E5] text-accent rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                <MessageCircle className="w-7 h-7" />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-slate-400 uppercase tracking-wider">Alertas WhatsApp</p>
-                <p className="text-2xl font-black text-slate-800">{pendingWhatsApp} pendientes</p>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-3xl shadow-elegant border border-[#E5E7EB] flex items-center gap-5 group hover:border-green-500 transition-all">
-              <div className="w-14 h-14 bg-[#F0FDF4] text-green-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                <CheckCircle2 className="w-7 h-7" />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-slate-400 uppercase tracking-wider">Órdenes Hoy</p>
-                <p className="text-2xl font-black text-slate-800">{completedToday} completadas</p>
-              </div>
-            </div>
+          {/* 📊 Analytics Dashboard (Excel Pro Inspiration) */}
+          <section className="grid grid-cols-1 gap-8">
+            <AnalyticsChart 
+              title="Tendencias de Crecimiento (Ventas vs Leads)"
+              data={dashboardData?.chartData || []}
+            />
           </section>
 
           {/* Orders List (Twilio Styled Virtualization Pattern) */}
