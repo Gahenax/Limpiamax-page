@@ -12,7 +12,7 @@ interface CheckoutModalProps {
 }
 
 export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessage }: CheckoutModalProps) {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 1.5 | 2 | 3>(1);
   const [formData, setFormData] = useState({
     calle: '',
     piso: '',
@@ -20,13 +20,15 @@ export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessag
     nombre: '',
     email: '',
     telefono: '',
+    service_date: '',
+    service_time: '09:00 - 13:00 (Mañana)',
   });
 
   const { cart: cartData, findService } = useCart();
 
   if (!isOpen) return null;
 
-  const handleNext = (e: React.FormEvent, nextStep: 2 | 3) => {
+  const handleNext = (e: React.FormEvent, nextStep: 1 | 1.5 | 2 | 3) => {
     e.preventDefault();
     setStep(nextStep);
   };
@@ -53,7 +55,7 @@ export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessag
         body: JSON.stringify({
           items,
           frequency: cartData.frequency,
-          formData, // Enviamos los datos del cliente (nombre, dirección, etc)
+          formData, // Enviamos los datos del cliente (nombre, dirección, fecha, etc)
           success_url: window.location.origin + '/gracias',
           cancel_url: window.location.href,
         })
@@ -104,7 +106,7 @@ export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessag
             </button>
             
             {step === 1 && (
-              <form onSubmit={(e) => handleNext(e, 2)} className="p-4 pt-0 border-t border-slate-100 animate-fade-in-up">
+              <form onSubmit={(e) => handleNext(e, 1.5)} className="p-4 pt-0 border-t border-slate-100 animate-fade-in-up">
                 <div className="space-y-4">
                   <div>
                     <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider ml-1">Calle y Número</label>
@@ -128,6 +130,58 @@ export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessag
             )}
           </div>
 
+          {/* STEP 1.5: PROGRAMAR CITA */}
+          <div className={`bg-white border rounded-2xl overflow-hidden shadow-sm transition-all duration-300 ${step === 1.5 ? 'border-accent ring-1 ring-accent/20' : 'border-border'}`}>
+            <button 
+              onClick={() => step > 1 && setStep(1.5)}
+              className="w-full p-4 flex items-center justify-between text-left font-bold"
+              disabled={step === 1.5 || step < 1.5}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${step > 1.5 ? 'bg-success text-white' : step === 1.5 ? 'bg-accent text-white' : 'bg-slate-100 text-slate-400'}`}>
+                  {step > 1.5 ? <Check className="w-5 h-5" /> : '2'}
+                </div>
+                <span className={step >= 1.5 ? 'text-primary' : 'text-slate-400'}>Programar Cita</span>
+              </div>
+              {step === 1.5 ? <ChevronUp className="w-5 h-5 text-accent" /> : <ChevronDown className="w-5 h-5 text-slate-400" />}
+            </button>
+            
+            {step === 1.5 && (
+              <form onSubmit={(e) => handleNext(e, 2)} className="p-4 pt-0 border-t border-slate-100 animate-fade-in-up">
+                <div className="space-y-4">
+                  <p className="text-sm font-medium text-slate-500 mb-2 mt-2">¿Cuándo quieres que vayamos?</p>
+                  <div>
+                    <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider ml-1">Fecha del Servicio</label>
+                    <input 
+                      required 
+                      type="date" 
+                      min={new Date().toISOString().split('T')[0]}
+                      value={formData.service_date} 
+                      onChange={e => setFormData({...formData, service_date: e.target.value})} 
+                      className="w-full mt-1 px-4 py-3 rounded-xl border-2 border-slate-100 focus:border-accent focus:ring-0 outline-none transition-colors" 
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider ml-1">Preferencia de Horario</label>
+                    <select 
+                      required 
+                      value={formData.service_time} 
+                      onChange={e => setFormData({...formData, service_time: e.target.value})} 
+                      className="w-full mt-1 px-4 py-3 rounded-xl border-2 border-slate-100 focus:border-accent focus:ring-0 outline-none transition-colors bg-white"
+                    >
+                      <option value="09:00 - 13:00 (Mañana)">09:00 - 13:00 (Mañana)</option>
+                      <option value="14:00 - 18:00 (Tarde)">14:00 - 18:00 (Tarde)</option>
+                      <option value="Flexible (Todo el día)">Flexible (Todo el día)</option>
+                    </select>
+                  </div>
+                  <button type="submit" className="w-full py-4 mt-2 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-colors">
+                    Continuar a Datos de Contacto
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+
           {/* STEP 2: CONTACTO */}
           <div className={`bg-white border rounded-2xl overflow-hidden shadow-sm transition-all duration-300 ${step === 2 ? 'border-accent ring-1 ring-accent/20' : 'border-border'}`}>
             <button 
@@ -137,7 +191,7 @@ export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessag
             >
               <div className="flex items-center gap-3">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${step > 2 ? 'bg-success text-white' : step === 2 ? 'bg-accent text-white' : 'bg-slate-100 text-slate-400'}`}>
-                  {step > 2 ? <Check className="w-5 h-5" /> : '2'}
+                  {step > 2 ? <Check className="w-5 h-5" /> : '3'}
                 </div>
                 <span className={step >= 2 ? 'text-primary' : 'text-slate-400'}>Datos de Contacto</span>
               </div>
@@ -172,7 +226,7 @@ export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessag
             <button className="w-full p-4 flex items-center justify-between text-left font-bold" disabled>
               <div className="flex items-center gap-3">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${step === 3 ? 'bg-accent text-white' : 'bg-slate-100 text-slate-400'}`}>
-                  3
+                  4
                 </div>
                 <span className={step === 3 ? 'text-primary' : 'text-slate-400'}>Resumen y Confirmación</span>
               </div>

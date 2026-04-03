@@ -1,4 +1,4 @@
-import { getStripeOrders } from '@/lib/stripe-orders';
+import { getStripeOrders, BookingOrder } from '@/lib/stripe-orders';
 import { getDashboardData } from '@/lib/dashboard-analytics';
 import { OrdersDashboard } from '@/components/admin/OrdersDashboard';
 import { redirect } from 'next/navigation';
@@ -12,11 +12,20 @@ export default async function AdminPage() {
     redirect('/admin/login');
   }
 
-  // 🏛️ Fetch de Datos Soberanos
-  const [orders, dashboardData] = await Promise.all([
-    getStripeOrders(50),
-    getDashboardData()
-  ]);
+  // 🏛️ Fetch de Datos Soberanos con Error Handling
+  let orders: BookingOrder[] = [];
+  let dashboardData: any = null; // analytics structure is complex, will keep any or refine later if needed
+
+  try {
+    const [fetchedOrders, fetchedDashboardData] = await Promise.all([
+      getStripeOrders(50),
+      getDashboardData()
+    ]);
+    orders = fetchedOrders;
+    dashboardData = fetchedDashboardData;
+  } catch (error) {
+    console.error('CRITICAL: Failed to fetch dashboard data:', error);
+  }
 
   const dashboard = dashboardData || {
     kpis: { totalRevenue: 0, totalSales: 0, totalLeads: 0, conversionRate: 0, averageTicket: 0 },

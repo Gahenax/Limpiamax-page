@@ -53,6 +53,8 @@ export async function POST(request: NextRequest) {
         customer_email: formData.email,
         customer_phone: formData.telefono,
         customer_address: `${formData.calle}, ${formData.piso}, ${formData.cp}`,
+        service_date: formData.service_date,
+        service_time: formData.service_time,
         frequency: frequency || 'once',
         category: mainService
       },

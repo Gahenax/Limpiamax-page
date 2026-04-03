@@ -1,14 +1,14 @@
 import { google } from 'googleapis';
-import path from 'path';
-
-const keyPath = path.join(process.cwd(), 'service-account-key.json');
 
 /**
  * Motor de Analíticas de Gahenax - Extrae y procesa datos de Google Sheets para el Dashboard.
  */
 export async function getDashboardData() {
   const auth = new google.auth.GoogleAuth({
-    keyFile: keyPath,
+    credentials: {
+      client_email: process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
+      private_key: process.env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    },
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   });
 

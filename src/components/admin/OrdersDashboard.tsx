@@ -247,7 +247,7 @@ export function OrdersDashboard({ initialOrders, dashboardData }: OrdersDashboar
                                 <span className="text-xs text-slate-600 font-medium line-clamp-2 leading-relaxed">{order.address}</span>
                               </div>
                               {(() => {
-                                const sanitized = sanitizeBarcelonaAddress(order.address);
+                                const sanitized = sanitizeBarcelonaAddress(order.address || '');
                                 return (sanitized.district || sanitized.postalCode) && (
                                   <div className="flex gap-1.5 ml-6">
                                     {sanitized.district && (

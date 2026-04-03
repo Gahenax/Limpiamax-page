@@ -7,15 +7,37 @@ const FAILED_LOG_PATH = path.join(process.cwd(), 'failed_webhooks.json');
 
 /**
  * Auntenticación centralizada para el Bot Gahenax Limpiamax (TS Edition).
+ * Prioriza variables de entorno para producción, fallback a archivo local para dev.
  */
 function getAuth() {
-  return new google.auth.GoogleAuth({
-    keyFile: keyPath,
-    scopes: [
-      'https://www.googleapis.com/auth/spreadsheets',
-      'https://www.googleapis.com/auth/calendar'
-    ],
-  });
+  const clientEmail = process.env.GOOGLE_SHEETS_CLIENT_EMAIL;
+  const privateKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY;
+
+  if (clientEmail && privateKey) {
+    return new google.auth.GoogleAuth({
+      credentials: {
+        client_email: clientEmail,
+        private_key: privateKey.replace(/\\n/g, '\n'), // Corregir saltos de línea de Hostinger/Process
+      },
+      scopes: [
+        'https://www.googleapis.com/auth/spreadsheets',
+        'https://www.googleapis.com/auth/calendar'
+      ],
+    });
+  }
+
+  // Fallback a archivo local (solo si existe, útil en dev)
+  if (fs.existsSync(keyPath)) {
+    return new google.auth.GoogleAuth({
+      keyFile: keyPath,
+      scopes: [
+        'https://www.googleapis.com/auth/spreadsheets',
+        'https://www.googleapis.com/auth/calendar'
+      ],
+    });
+  }
+
+  throw new Error('Google Auth Error: Neither environment variables nor service-account-key.json found.');
 }
 
 /**

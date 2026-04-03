@@ -57,19 +57,67 @@ export async function POST(req: NextRequest) {
 
       // 2. Agendar en Google Calendar (Agenda Soberana)
       try {
-        const startTime = new Date(); // Fallback si no hay metadata
-        const endTime = new Date(startTime.getTime() + 2 * 60 * 60 * 1000);
+        let startDateTime: Date;
+        
+        if (metadata.service_date) {
+          // metadata.service_date format: YYYY-MM-DD
+          // metadata.service_time format: "09:00 - 13:00 (Mañana)" or similar
+          const [year, month, day] = metadata.service_date.split('-').map(Number);
+          startDateTime = new Date(year, month - 1, day);
+          
+          if (metadata.service_time?.includes('Tarde')) {
+            startDateTime.setHours(14, 0, 0);
+          } else {
+            startDateTime.setHours(9, 0, 0);
+          }
+        } else {
+          startDateTime = new Date(); // Fallback
+        }
+        
+        const endDateTime = new Date(startDateTime.getTime() + 4 * 60 * 60 * 1000); // 4h duration
 
         await createCalendarEvent({
           summary: `Limpieza: ${metadata.customer_name || 'Nuevo Cliente'}`,
           location: metadata.customer_address || 'Dirección no especificada',
-          description: `Servicio: ${metadata.category}\nCliente: ${metadata.customer_name}\nFrecuencia: ${metadata.frequency}`,
-          startTime: startTime.toISOString(),
-          endTime: endTime.toISOString()
+          description: `Servicio: ${metadata.category}\nCliente: ${metadata.customer_name}\nFrecuencia: ${metadata.frequency}\nHorario: ${metadata.service_time}`,
+          startTime: startDateTime.toISOString(),
+          endTime: endDateTime.toISOString()
         });
-        console.log('✅ Servicio agendado en Calendar.');
+        console.log('✅ Servicio agendado en Calendar con fecha real.');
       } catch (calErr) {
         console.error('Failed to create calendar event:', calErr);
+      }
+
+      // 3. Enviar Email de Confirmación (Resend)
+      if (process.env.RESEND_API_KEY && metadata.customer_email) {
+        try {
+          const { Resend } = await import('resend');
+          const resend = new Resend(process.env.RESEND_API_KEY);
+          
+          await resend.emails.send({
+            from: 'Limpiamax <hola@limpiamaxweb.com>',
+            to: metadata.customer_email,
+            subject: '¡Reserva Confirmada en Limpiamax!',
+            html: `
+              <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
+                <h1 style="color: #1a1a1a;">¡Hola ${metadata.customer_name}!</h1>
+                <p>Tu reserva para <strong>${metadata.category}</strong> ha sido confirmada con éxito.</p>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+                <h3 style="color: #1a1a1a;">Detalles del Servicio:</h3>
+                <ul style="list-style: none; padding: 0;">
+                  <li>📅 <strong>Fecha:</strong> ${metadata.service_date}</li>
+                  <li>🕒 <strong>Horario:</strong> ${metadata.service_time}</li>
+                  <li>📍 <strong>Dirección:</strong> ${metadata.customer_address}</li>
+                </ul>
+                <p style="margin-top: 30px;">Un equipo se pondrá en contacto contigo pronto para cualquier detalle adicional.</p>
+                <p>Gracias por confiar en <strong>Limpiamax</strong>.</p>
+              </div>
+            `
+          });
+          console.log('✅ Email de confirmación enviado via Resend.');
+        } catch (emailErr) {
+          console.error('Failed to send confirmation email:', emailErr);
+        }
       }
 
       console.log('Order processed and synced with Admin Hub.');
