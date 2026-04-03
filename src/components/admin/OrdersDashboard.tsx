@@ -26,8 +26,7 @@ import { signOut } from 'next-auth/react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { sanitizeBarcelonaAddress } from '@/lib/address-sanitizer';
-import { StatCard } from './StatCard';
-import { AnalyticsChart } from './AnalyticsChart';
+// Removed StatCard and AnalyticsChart to isolate production crash
 
 interface OrdersDashboardProps {
   initialOrders: BookingOrder[];
@@ -159,44 +158,36 @@ export function OrdersDashboard({ initialOrders, dashboardData }: OrdersDashboar
         {/* Scrollable Area */}
         <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-12 scroll-smooth">
           
-          {/* 🏛️ Gahenax KPI Ribbon */}
+          {/* 🏛️ Gahenax KPI Ribbon (Simplified for Stability) */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatCard 
-              title="Ingresos Totales"
-              value={`${kpis.totalRevenue.toLocaleString('es-ES')} €`}
-              icon={<Euro className="w-7 h-7" />}
-              trend="+12.5%"
-              trendType="up"
-              subtitle="Basado en transacciones reales"
-            />
-            <StatCard 
-              title="Leads Soberanos"
-              value={kpis.totalLeads}
-              icon={<Users className="w-7 h-7" />}
-              trend={`${kpis.totalSales} Ventas`}
-              trendType="up"
-              subtitle="Sincronizado con Contactos"
-            />
-            <StatCard 
-              title="Conversión"
-              value={`${kpis.conversionRate.toFixed(1)} %`}
-              icon={<Percent className="w-7 h-7" />}
-              subtitle="Leads -> Clientes"
-            />
-            <StatCard 
-              title="Ticket Promedio"
-              value={`${kpis.averageTicket.toFixed(2)} €`}
-              icon={<TrendingUp className="w-7 h-7" />}
-              subtitle="Eficiencia por orden"
-            />
+            <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col gap-2">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Ingresos Totales</span>
+              <span className="text-2xl font-black text-primary">{kpis.totalRevenue.toLocaleString('es-ES')} €</span>
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Transacciones Reales</span>
+            </div>
+            <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col gap-2">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Leads Soberanos</span>
+              <span className="text-2xl font-black text-primary">{kpis.totalLeads}</span>
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{kpis.totalSales} Ventas</span>
+            </div>
+            <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col gap-2">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Conversión</span>
+              <span className="text-2xl font-black text-primary">{kpis.conversionRate.toFixed(1)} %</span>
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Leads -&gt; Clientes</span>
+            </div>
+            <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col gap-2">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Ticket Promedio</span>
+              <span className="text-2xl font-black text-primary">{kpis.averageTicket.toFixed(2)} €</span>
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Eficiencia por orden</span>
+            </div>
           </section>
 
-          {/* 📊 Analytics Dashboard (Excel Pro Inspiration) */}
-          <section className="grid grid-cols-1 gap-8">
-            <AnalyticsChart 
-              title="Tendencias de Crecimiento (Ventas vs Leads)"
-              data={dashboardData?.chartData || []}
-            />
+          {/* 📊 Analytics Dashboard (Chart temporarily disabled for production stability) */}
+          <section className="bg-white p-8 rounded-3xl border border-slate-100 flex items-center justify-center min-h-[300px]">
+             <div className="text-center">
+                <TrendingUp className="w-12 h-12 text-slate-200 mx-auto mb-4" />
+                <h3 className="text-slate-400 font-black uppercase tracking-widest text-sm">Motor de Gráficas en Mantenimiento Pro</h3>
+             </div>
           </section>
 
           {/* Orders List (Twilio Styled Virtualization Pattern) */}
