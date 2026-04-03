@@ -1,46 +1,21 @@
-import { getStripeOrders, BookingOrder } from '@/lib/stripe-orders';
-import { getDashboardData } from '@/lib/dashboard-analytics';
-import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
-import { AdminDashboardWrapper } from '@/components/admin/AdminDashboardWrapper';
-import { ClientErrorDiagnostic } from '@/components/admin/ClientErrorDiagnostic';
-
 export default async function AdminPage() {
-  const session = await getServerSession();
-
-  // Redirección de seguridad triple (Middleware + ServerCheck)
-  if (!session) {
-    redirect('/admin/login');
-  }
-
-  // 🏛️ Fetch de Datos Soberanos con Error Handling
-  let orders: BookingOrder[] = [];
-  let dashboardData: any = null; // analytics structure is complex, will keep any or refine later if needed
-
-  try {
-    const [fetchedOrders, fetchedDashboardData] = await Promise.all([
-      getStripeOrders(50),
-      getDashboardData()
-    ]);
-    orders = fetchedOrders;
-    dashboardData = fetchedDashboardData;
-  } catch (error) {
-    console.error('CRITICAL: Failed to fetch dashboard data:', error);
-  }
-
-  const dashboard = dashboardData || {
-    kpis: { totalRevenue: 0, totalSales: 0, totalLeads: 0, conversionRate: 0, averageTicket: 0 },
-    chartData: [],
-    recentActivity: []
-  };
-
   return (
-    <div className="bg-[#F9FAFB] min-h-screen">
-      <ClientErrorDiagnostic />
-      <AdminDashboardWrapper 
-        orders={orders} 
-        dashboard={dashboard} 
-      />
+    <div style={{ 
+      padding: '5rem', 
+      background: 'white', 
+      minHeight: '100vh', 
+      color: 'black',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: 'sans-serif'
+    }}>
+      <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>🛡️ AISLAMIENTO DE SEGURIDAD</h1>
+      <p style={{ fontSize: '1.2rem' }}>Si puedes ver este mensaje, el problema está en los componentes del Dashboard.</p>
+      <div style={{ marginTop: '2rem', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
+        <pre>Status: Layout & Auth OK</pre>
+      </div>
     </div>
   );
 }
