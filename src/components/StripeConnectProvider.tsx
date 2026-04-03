@@ -43,8 +43,15 @@ export const StripeConnectProvider: React.FC<StripeConnectProviderProps> = ({ ch
           return client_secret;
         };
 
+        const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+        if (!publishableKey) {
+          console.warn('Stripe publishable key is missing. Skipping initialization.');
+          setIsLoading(false);
+          return;
+        }
+
         const stripeConnectInstance = loadConnectAndInitialize({
-          publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
+          publishableKey,
           fetchClientSecret: fetchClientSecret,
           appearance: {
             variables: {

@@ -1,8 +1,8 @@
 import { getStripeOrders, BookingOrder } from '@/lib/stripe-orders';
 import { getDashboardData } from '@/lib/dashboard-analytics';
-import { OrdersDashboard } from '@/components/admin/OrdersDashboard';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
+import { AdminDashboardWrapper } from '@/components/admin/AdminDashboardWrapper';
 
 export default async function AdminPage() {
   const session = await getServerSession();
@@ -35,9 +35,9 @@ export default async function AdminPage() {
 
   return (
     <div className="bg-[#F9FAFB] min-h-screen">
-      <OrdersDashboard 
-        initialOrders={orders} 
-        dashboardData={dashboard} 
+      <AdminDashboardWrapper 
+        orders={orders} 
+        dashboard={dashboard} 
       />
     </div>
   );
