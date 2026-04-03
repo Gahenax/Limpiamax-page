@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BookingOrder, updateOrderMetadata } from '@/lib/stripe-orders';
 import { 
   Search, 
@@ -48,6 +48,11 @@ export function OrdersDashboard({ initialOrders, dashboardData }: OrdersDashboar
   const [orders, setOrders] = useState<BookingOrder[]>(initialOrders);
   const [searchTerm, setSearchTerm] = useState('');
   const [isUpdating, setIsUpdating] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Stats
   const kpis = dashboardData?.kpis || {
@@ -75,6 +80,14 @@ export function OrdersDashboard({ initialOrders, dashboardData }: OrdersDashboar
       setIsUpdating(null);
     }
   };
+
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center p-8">
+        <div className="w-16 h-16 border-4 border-accent/20 border-t-accent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white flex flex-col md:flex-row overflow-hidden font-sans">
@@ -223,7 +236,18 @@ export function OrdersDashboard({ initialOrders, dashboardData }: OrdersDashboar
                              </div>
                              <div className="flex flex-col">
                                 <span className="font-bold text-slate-800 text-sm truncate max-w-[120px]">{order.customerName}</span>
-                                <span className="text-xs text-slate-400 font-medium">{format(new Date(order.date), "d MMM, HH:mm", { locale: es })}</span>
+                                <span className="text-xs text-slate-400 font-medium">
+                                  {(() => {
+                                    try {
+                                      const date = new Date(order.date);
+                                      return isNaN(date.getTime()) 
+                                        ? 'Fecha no disp.' 
+                                        : format(date, "d MMM, HH:mm", { locale: es });
+                                    } catch {
+                                      return 'Error fecha';
+                                    }
+                                  })()}
+                                </span>
                              </div>
                           </div>
                         </td>

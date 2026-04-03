@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { 
   AreaChart, 
   Area, 
@@ -20,6 +21,20 @@ interface AnalyticsChartProps {
  * Gráfica de Analíticas de Gahenax - Inspiración Excel Dashboard Pro.
  */
 export function AnalyticsChart({ data, title }: AnalyticsChartProps) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <div className="bg-white p-8 rounded-[3rem] shadow-luxe border ultra-thin-border border-accent/10 h-[500px] flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-accent/20 border-t-accent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
