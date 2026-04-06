@@ -10,6 +10,7 @@ import { Footer } from '@/components/home/Footer';
 import { BottomNav } from '@/components/home/BottomNav';
 import { MessageCircle, CheckCircle2 } from 'lucide-react';
 import { Metadata } from 'next';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Limpieza de Mudanza y Fin de Alquiler Barcelona | LimpiaMax',
@@ -73,7 +74,13 @@ export default function MudanzaPage() {
               </div>
               <div className="relative">
                 <div className="aspect-square rounded-[4rem] overflow-hidden shadow-gold-glow relative animate-float">
-                  <img src="/hero-premium-5.png" alt="Limpieza de mudanzas" className="w-full h-full object-cover" />
+                  <Image 
+                    src="/hero-premium-5.png" 
+                    alt="Limpieza de mudanzas" 
+                    className="w-full h-full object-cover"
+                    width={800}
+                    height={800}
+                  />
                   <div className="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-black/60 to-transparent">
                     <p className="text-white font-black text-2xl tracking-tight">Expertos en Barcelona Ciudad</p>
                     <p className="text-white/70 font-medium">Desde mudanzas locales hasta residenciales.</p>

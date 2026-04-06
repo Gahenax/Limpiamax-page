@@ -10,6 +10,7 @@ import { Footer } from '@/components/home/Footer';
 import { BottomNav } from '@/components/home/BottomNav';
 import { MessageCircle, CheckCircle2 } from 'lucide-react';
 import { Metadata } from 'next';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Limpieza de Fin de Obra en Barcelona | LimpiaMax Premium',
@@ -67,7 +68,13 @@ export default function FinDeObraPage() {
               </div>
               <div className="relative">
                 <div className="aspect-square rounded-[4rem] overflow-hidden shadow-gold-glow relative animate-float">
-                  <img src="/hero-premium-4.png" alt="Limpieza industrial post-obra" className="w-full h-full object-cover" />
+                  <Image 
+                    src="/hero-premium-4.png" 
+                    alt="Limpieza industrial post-obra" 
+                    className="w-full h-full object-cover"
+                    width={800}
+                    height={800}
+                  />
                   <div className="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-black/60 to-transparent">
                     <p className="text-white font-black text-2xl tracking-tight">Equipamiento Industrial v2.0</p>
                     <p className="text-white/70 font-medium">Usamos aspiradoras HEPA para el polvo respirable.</p>
