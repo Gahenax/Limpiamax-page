@@ -1,3 +1,10 @@
+# --- GAHENAX HYBRID ENROUTING (Bypass Node.js for Admin) ---
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Si la URL empieza con /admin, forzar la ejecucion en la carpeta física
+    RewriteRule ^admin(/.*)?$ admin/$1 [L]
+</IfModule>
+
 # --- GAHENAX PASSENGER CONFIG ---
 # Esta seccion permite que Hostinger arranque la app Next.js automaticamente
 PassengerAppRoot /home/u314799704/domains/limpiamaxweb.com/nodejs

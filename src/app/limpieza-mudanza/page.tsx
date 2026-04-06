@@ -12,8 +12,8 @@ import { MessageCircle, CheckCircle2 } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Limpieza de Mudanza en Barcelona | LimpiaMax',
-  description: 'Servicio especializado de limpieza para mudanzas en Barcelona. Deja tu antiguo o nuevo hogar impecable. Precios transparentes y reserva online.',
+  title: 'Limpieza de Mudanza y Fin de Alquiler Barcelona | LimpiaMax',
+  description: 'Servicio experto de limpieza de fin de alquiler y mudanzas en Barcelona. Recupera tu fianza con nuestra limpieza profunda garantizada.',
 };
 
 export default function MudanzaPage() {
@@ -42,9 +42,9 @@ export default function MudanzaPage() {
     <BannerLayoutWrapper>
       <main className="bg-white">
         <Hero 
-          badgeText="📦 Especialistas en Mudanzas v2.0"
-          title={<>Llega y <span className="text-accent">Descansa</span> en tu nuevo hogar.</>}
-          subtitle="Limpieza profunda pre-entrada o post-salida. Recupera tu fianza o estrena casa con la absoluta garantía de LimpiaMAX."
+          badgeText="📦 Limpieza de Mudanza y Fin de Alquiler"
+          title={<>Limpieza de <span className="text-accent">Mudanza</span> y Fin de Alquiler.</>}
+          subtitle="Garantiza tu fianza. Limpieza profunda pre-entrada o post-salida con la absoluta garantía de LimpiaMAX."
         />
 
         {/* Feature Section: Mudanza Checklist Boutique */}

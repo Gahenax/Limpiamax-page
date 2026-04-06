@@ -14,7 +14,10 @@ export const metadata: Metadata = {
 import { StripeConnectProvider } from '@/components/StripeConnectProvider';
 import { CartProvider } from '@/components/CartProvider';
 import { AnnouncementBanner } from '@/components/home/AnnouncementBanner';
-import { AuthProvider } from '@/components/providers/AuthProvider';
+import GoogleAdsTracking from '@/components/GoogleAdsTracking';
+import SchemaMarkup from '@/components/SchemaMarkup';
+import { Suspense } from 'react';
+// AuthProvider purgado por Gahenax Layer 1
 
 export default function RootLayout({
   children,
@@ -24,14 +27,16 @@ export default function RootLayout({
   return (
     <html lang="es" className={`scroll-smooth ${inter.variable} ${outfit.variable}`}>
       <body className="font-sans antialiased">
-        <AuthProvider>
           <StripeConnectProvider accountId={process.env.NEXT_PUBLIC_STRIPE_CONNECT_ACCOUNT_ID || ''}>
             <CartProvider>
+              <SchemaMarkup />
+              <Suspense fallback={null}>
+                <GoogleAdsTracking />
+              </Suspense>
               <AnnouncementBanner />
               {children}
             </CartProvider>
           </StripeConnectProvider>
-        </AuthProvider>
       </body>
     </html>
   );

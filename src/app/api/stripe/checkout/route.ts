@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion,
   });
   try {
-    const { items, frequency, formData, success_url, cancel_url } = await request.json();
+    const { items, frequency, formData, success_url, cancel_url, gclid } = await request.json();
 
     const isSubscription = frequency && frequency !== 'once';
     
@@ -56,7 +56,8 @@ export async function POST(request: NextRequest) {
         service_date: formData.service_date,
         service_time: formData.service_time,
         frequency: frequency || 'once',
-        category: mainService
+        category: mainService,
+        gclid: gclid || ''
       },
       success_url: success_url + '?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: cancel_url,

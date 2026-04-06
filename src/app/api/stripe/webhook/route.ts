@@ -5,6 +5,7 @@ import { logToSheet, createCalendarEvent } from '@/lib/sheets-logger';
 // Build Force Sync ID: 3105-02
 import { mapStripeSessionToOrderRow } from '@/lib/orders-kernel';
 import { SHEETS_CONFIG } from '@/lib/constants';
+import { GoogleAdsService } from '@/lib/google-ads-service';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion,
@@ -117,6 +118,22 @@ export async function POST(req: NextRequest) {
           console.log('✅ Email de confirmación enviado via Resend.');
         } catch (emailErr) {
           console.error('Failed to send confirmation email:', emailErr);
+        }
+      }
+
+      // 4. Reportar a Google Ads (Conversión Offline / Atribución de GCLID)
+      const gclid = metadata.gclid;
+      if (gclid) {
+        try {
+          await GoogleAdsService.reportConversion({
+            gclid,
+            amount: (session.amount_total || 0) / 100, // Dividir por 100 para obtener EUR de centimos
+            currencyCode: session.currency?.toUpperCase() || 'EUR',
+          });
+          console.log(`✅ Conversión GCLID ${gclid} reportada exitosamente.`);
+        } catch (adsErr) {
+          // No lanzamos error para no bloquear el webhook si falla Ads
+          console.error('Failed to report Google Ads conversion:', adsErr);
         }
       }
 

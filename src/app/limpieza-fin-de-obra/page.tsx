@@ -12,8 +12,8 @@ import { MessageCircle, CheckCircle2 } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Limpieza Fin de Obra Barcelona | LimpiaMax',
-  description: 'Servicio premium de limpieza post-reforma en Barcelona. Eliminamos el polvo de obra y restos de pintura. Resultados impecables garantizados.',
+  title: 'Limpieza de Fin de Obra en Barcelona | LimpiaMax Premium',
+  description: 'Servicio especializado de limpieza post-reforma y fin de obra en Barcelona. Eliminamos polvo fino y manchas de cemento. ¡Reserva online con precio cerrado!',
 };
 
 export default function FinDeObraPage() {
@@ -36,9 +36,9 @@ export default function FinDeObraPage() {
     <BannerLayoutWrapper>
       <main className="bg-white">
         <Hero 
-          badgeText="🏗️ Limpieza Post-Reforma Premium"
-          title={<>Dile adiós al <span className="text-accent">polvo</span> de la obra.</>}
-          subtitle="Acondicionamiento total para disfrutar de tu reforma. Eliminamos manchas de cemento y restos de pintura con maquinaria profesional."
+          badgeText="🏗️ Limpieza de Fin de Obra en Barcelona"
+          title={<>Limpieza de <span className="text-accent">Fin de Obra</span> en Barcelona.</>}
+          subtitle="Acondicionamiento total post-reforma. Eliminamos manchas de cemento y polvo fino con maquinaria industrial HEPA."
         />
 
         {/* Feature Section: Checklist Boutique */}

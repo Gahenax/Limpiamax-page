@@ -49,6 +49,7 @@ export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessag
     });
     
     try {
+      const gclid = localStorage.getItem('limpiamax_gclid');
       const res = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -56,6 +57,7 @@ export function CheckoutModal({ isOpen, onClose, totalAmount, baseWhatsAppMessag
           items,
           frequency: cartData.frequency,
           formData, // Enviamos los datos del cliente (nombre, dirección, fecha, etc)
+          gclid, // Atribución de Google Ads
           success_url: window.location.origin + '/gracias',
           cancel_url: window.location.href,
         })
