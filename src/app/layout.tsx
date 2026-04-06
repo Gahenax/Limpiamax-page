@@ -30,6 +30,17 @@ export default function RootLayout({
       <body className="font-sans antialiased">
           <StripeConnectProvider accountId={process.env.NEXT_PUBLIC_STRIPE_CONNECT_ACCOUNT_ID || ''}>
             <CartProvider>
+              {/* CMP - Consent Management Platform (Prioridad Máxima) */}
+              <Script 
+                type="text/javascript" 
+                src="https://cdn.consentmanager.net/delivery/autoblocking/47f3952bc2205.js"
+                data-cmp-ab="1"
+                data-cmp-host="c.delivery.consentmanager.net"
+                data-cmp-cdn="cdn.consentmanager.net"
+                data-cmp-codesrc="16"
+                strategy="beforeInteractive"
+              />
+
               {/* Google Tag (gtag.js) - Instalación Manual Requerida */}
               <Script 
                 src="https://www.googletagmanager.com/gtag/js?id=AW-18064056551"
