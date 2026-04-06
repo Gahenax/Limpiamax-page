@@ -14,8 +14,9 @@ export const metadata: Metadata = {
 import { StripeConnectProvider } from '@/components/StripeConnectProvider';
 import { CartProvider } from '@/components/CartProvider';
 import { AnnouncementBanner } from '@/components/home/AnnouncementBanner';
-import GoogleAdsTracking from '@/components/GoogleAdsTracking';
 import SchemaMarkup from '@/components/SchemaMarkup';
+import GclidCapture from '@/components/GclidCapture';
+import Script from 'next/script';
 import { Suspense } from 'react';
 // AuthProvider purgado por Gahenax Layer 1
 
@@ -29,9 +30,24 @@ export default function RootLayout({
       <body className="font-sans antialiased">
           <StripeConnectProvider accountId={process.env.NEXT_PUBLIC_STRIPE_CONNECT_ACCOUNT_ID || ''}>
             <CartProvider>
+              {/* Google Tag (gtag.js) - Instalación Manual Requerida */}
+              <Script 
+                src="https://www.googletagmanager.com/gtag/js?id=AW-18064056551"
+                strategy="afterInteractive"
+              />
+              <Script id="google-analytics" strategy="afterInteractive">
+                {`
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'AW-18064056551');
+                  gtag('config', 'G-5B27CWZ3SY');
+                `}
+              </Script>
+              
               <SchemaMarkup />
               <Suspense fallback={null}>
-                <GoogleAdsTracking />
+                <GclidCapture />
               </Suspense>
               <AnnouncementBanner />
               {children}
