@@ -1,0 +1,12 @@
+# Aislamiento Gahenax: Desactivar motor Node.js para este nodo
+<IfModule mod_passenger.c>
+    PassengerEnabled off
+</IfModule>
+
+# Asegurar que index.php sea el motor de arranque
+DirectoryIndex index.php
+
+# Opcional: Forzar HTTPS para el panel admin
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

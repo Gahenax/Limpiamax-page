@@ -1,9 +1,17 @@
 # --- GAHENAX HYBRID ENROUTING (Bypass Node.js for Admin) ---
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    
+    # --- REDIRECCION 301 (GoDaddy a Hostinger) ---
+    # Fuerza que limpiamaxbarcelona.com redirija a limpiamaxweb.com
+    RewriteCond %{HTTP_HOST} ^limpiamaxbarcelona\.com$ [NC,OR]
+    RewriteCond %{HTTP_HOST} ^www\.limpiamaxbarcelona\.com$ [NC]
+    RewriteRule ^(.*)$ https://limpiamaxweb.com/$1 [R=301,L]
+    
     # Si la URL empieza con /admin, forzar la ejecucion en la carpeta física
     RewriteRule ^admin(/.*)?$ admin/$1 [L]
 </IfModule>
+
 
 # --- GAHENAX PASSENGER CONFIG ---
 # Esta seccion permite que Hostinger arranque la app Next.js automaticamente
