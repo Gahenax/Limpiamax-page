@@ -9,7 +9,11 @@ export const metadata: Metadata = {
   title: 'Limpia MAX — Limpieza Profesional de Casas y Pisos en Barcelona',
   description: 'Servicio premium de limpieza profesional en Barcelona. Garantía de resultados impecables para casas, limpiezas de fin de obra y mudanzas. Cotiza gratis en segundos.',
   metadataBase: new URL('https://limpiamaxweb.com'),
+  alternates: {
+    canonical: '/',
+  },
 };
+
 
 import { StripeConnectProvider } from '@/components/StripeConnectProvider';
 import { CartProvider } from '@/components/CartProvider';

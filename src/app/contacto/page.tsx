@@ -6,8 +6,11 @@ import { MessageCircle } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contacto y Presupuestos | LimpiaMax Barcelona',
-  description: 'Contacta con LimpiaMax para un presupuesto personalizado de limpieza en Barcelona. Atención inmediata vía WhatsApp o email.',
+  title: 'Contacto | LimpiaMax Barcelona',
+  description: 'Contacta con nuestro equipo de limpieza profesional en Barcelona. Estamos aquí para resolver tus dudas y ayudarte con tu reserva.',
+  alternates: {
+    canonical: '/contacto',
+  },
 };
 
 export default function ContactoPage() {

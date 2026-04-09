@@ -15,6 +15,9 @@ import Image from 'next/image';
 export const metadata: Metadata = {
   title: 'Limpieza de Fin de Obra en Barcelona | LimpiaMax Premium',
   description: 'Servicio especializado de limpieza post-reforma y fin de obra en Barcelona. Eliminamos polvo fino y manchas de cemento. ¡Reserva online con precio cerrado!',
+  alternates: {
+    canonical: '/limpieza-fin-de-obra',
+  },
 };
 
 export default function FinDeObraPage() {

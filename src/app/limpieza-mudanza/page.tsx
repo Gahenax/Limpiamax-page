@@ -15,6 +15,9 @@ import Image from 'next/image';
 export const metadata: Metadata = {
   title: 'Limpieza de Mudanza y Fin de Alquiler Barcelona | LimpiaMax',
   description: 'Servicio experto de limpieza de fin de alquiler y mudanzas en Barcelona. Recupera tu fianza con nuestra limpieza profunda garantizada.',
+  alternates: {
+    canonical: '/limpieza-mudanza',
+  },
 };
 
 export default function MudanzaPage() {

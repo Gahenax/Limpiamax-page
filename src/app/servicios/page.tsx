@@ -8,7 +8,11 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Nuestros Servicios de Limpieza en Barcelona | LimpiaMax',
   description: 'Descubre nuestros servicios personalizados: Limpieza de casas, tapizados, mudanzas y fines de obra. Reserva con precio cerrado e inmediato en Barcelona.',
+  alternates: {
+    canonical: '/servicios',
+  },
 };
+
 
 export default function ServiciosPage() {
   return (
