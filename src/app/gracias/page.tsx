@@ -8,24 +8,37 @@ import { CheckCircle, Home, Calendar, Clock, Euro, Tag } from 'lucide-react';
 function SuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
-  const [sessionData, setSessionData] = useState<any>(null);
+  const [sessionData, setSessionData] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
     if (sessionId) {
       fetch(`/api/stripe/session?session_id=${sessionId}`)
         .then(res => res.json())
         .then(data => {
-          setSessionData(data);
-          setLoading(false);
+          if (isMounted) {
+            setSessionData(data);
+          }
         })
         .catch(err => {
           console.error('Error fetching session:', err);
-          setLoading(false);
+        })
+        .finally(() => {
+          if (isMounted) {
+            setLoading(false);
+          }
         });
     } else {
-      setLoading(false);
+      setTimeout(() => {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }, 0);
     }
+    return () => {
+      isMounted = false;
+    };
   }, [sessionId]);
 
   if (loading) {
@@ -47,7 +60,7 @@ function SuccessContent() {
         ¡Reserva Confirmada!
       </h1>
       <p className="text-slate-500 font-medium mb-8">
-        {sessionData?.customer_name ? `¡Gracias ${sessionData.customer_name}! ` : ''}
+        {sessionData?.customer_name ? `¡Gracias ${String(sessionData.customer_name)}! ` : ''}
         Tu pago ha sido procesado con éxito.
       </p>
 
@@ -61,7 +74,7 @@ function SuccessContent() {
               </div>
               <div>
                 <p className="text-[10px] font-bold text-slate-400 uppercase leading-none mb-1">Servicio</p>
-                <p className="text-primary font-bold leading-none">{sessionData.category}</p>
+                <p className="text-primary font-bold leading-none">{String(sessionData.category || 'N/A')}</p>
               </div>
             </div>
             
@@ -72,7 +85,7 @@ function SuccessContent() {
                 </div>
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase leading-none mb-1">Fecha</p>
-                  <p className="text-primary font-bold leading-none">{sessionData.service_date || 'Pendiente'}</p>
+                  <p className="text-primary font-bold leading-none">{sessionData.service_date ? String(sessionData.service_date) : 'Pendiente'}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -81,7 +94,7 @@ function SuccessContent() {
                 </div>
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase leading-none mb-1">Horario</p>
-                  <p className="text-primary font-bold leading-none text-xs">{sessionData.service_time || 'Mañana'}</p>
+                  <p className="text-primary font-bold leading-none text-xs">{sessionData.service_time ? String(sessionData.service_time) : 'Mañana'}</p>
                 </div>
               </div>
             </div>
@@ -91,7 +104,7 @@ function SuccessContent() {
                 <Euro className="w-5 h-5 text-accent" />
                 <span className="text-xl">Total Pagado</span>
               </div>
-              <span className="text-2xl font-black text-primary">€{sessionData.amount?.toFixed(2)}</span>
+              <span className="text-2xl font-black text-primary">€{typeof sessionData.amount === 'number' ? sessionData.amount.toFixed(2) : '0.00'}</span>
             </div>
           </div>
         </div>

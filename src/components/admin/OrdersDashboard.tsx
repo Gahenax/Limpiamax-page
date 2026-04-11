@@ -17,10 +17,7 @@ import {
   Target, 
   Sparkles, 
   MoreVertical, 
-  LogOut, 
-  Users, 
-  Percent, 
-  Euro 
+  LogOut
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { format } from 'date-fns';

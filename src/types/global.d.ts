@@ -2,9 +2,9 @@ export {};
 
 declare global {
   interface Window {
-    gtag: (command: string, ...args: any[]) => void;
-    dataLayer: any[];
+    gtag: (command: string, ...args: unknown[]) => void;
+    dataLayer: unknown[];
     // Consent Manager properties
-    __cmp?: any;
+    __cmp?: unknown;
   }
 }
