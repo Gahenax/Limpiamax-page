@@ -19,9 +19,25 @@ const DynamicDashboard = dynamic(
   }
 );
 
+interface DashboardData {
+  kpis: {
+    totalRevenue: number;
+    totalSales: number;
+    totalLeads: number;
+    conversionRate: number;
+    averageTicket: number;
+  };
+  chartData: {
+    date: string;
+    sales: number;
+    leads: number;
+  }[];
+  recentActivity: Record<string, unknown>[];
+}
+
 interface AdminDashboardWrapperProps {
   orders: BookingOrder[];
-  dashboard: any;
+  dashboard: DashboardData | null;
 }
 
 export function AdminDashboardWrapper({ orders, dashboard }: AdminDashboardWrapperProps) {

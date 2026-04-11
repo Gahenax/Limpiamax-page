@@ -24,7 +24,13 @@ export function AnalyticsChart({ data, title }: AnalyticsChartProps) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    let mounted = true;
+    if (mounted) {
+      setIsMounted(true);
+    }
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   if (!isMounted) {

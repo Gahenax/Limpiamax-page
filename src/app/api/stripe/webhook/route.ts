@@ -7,15 +7,20 @@ import { mapStripeSessionToOrderRow } from '@/lib/orders-kernel';
 import { SHEETS_CONFIG } from '@/lib/constants';
 import { GoogleAdsService } from '@/lib/google-ads-service';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+const stripe = stripeSecretKey ? new Stripe(stripeSecretKey, {
   apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion,
-});
+}) : null;
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const signature = (await headers()).get('stripe-signature') as string;
+
+  if (!stripe) {
+    return NextResponse.json({ error: 'Stripe configuration error' }, { status: 500 });
+  }
 
   let event: Stripe.Event;
 

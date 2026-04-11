@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Instagram } from 'lucide-react';
+import { Phone, MapPin, Instagram } from 'lucide-react';
 import { Logo } from '../ui/Logo';
 import Link from 'next/link';
 
