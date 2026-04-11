@@ -5,8 +5,10 @@ export function middleware(request: NextRequest) {
   const host = request.headers.get("host") || "";
   
   // SEO Absorption: Redirigir limpiamaxbarcelona.com -> limpiamaxweb.com
-  if (host.includes("limpiamaxbarcelona.com")) {
+  // EXCEPCION: No redirigir rutas de API (Webhooks, etc.) porque servicios como Stripe no siguen redirects.
+  if (host.includes("limpiamaxbarcelona.com") && !request.nextUrl.pathname.startsWith('/api/')) {
     const url = request.nextUrl.clone();
+
     url.host = "limpiamaxweb.com";
     url.port = "";
     url.protocol = "https:";
