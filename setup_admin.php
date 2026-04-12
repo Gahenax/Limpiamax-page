@@ -3,6 +3,9 @@
  * Gahenax Admin Node Setup
  * Crea la estructura fisica para el nodo administrativo aislado
  */
+require_once 'admin/config.php';
+checkAuth('admin/login.php');
+
 $dir = __DIR__ . '/admin';
 
 if (!file_exists($dir)) {
