@@ -26,9 +26,9 @@ define('GOOGLE_KEY_PATH', __DIR__ . '/../service-account-key.json');
 define('SHEET_ID_ORDERS', getenv('GOOGLE_SHEET_ID_SALES'));
 
 // Sistema de Protección de Sesión
-function checkAuth() {
+function checkAuth($redirect = 'login.php') {
     if (!isset($_SESSION['gahenax_authenticated'])) {
-        header('Location: login.php');
+        header('Location: ' . $redirect);
         exit;
     }
 }
