@@ -1,9 +1,3 @@
-import { ModelServiceClient } from '@google-cloud/aiplatform';
-import path from 'path';
-
-const keyPath = path.join(process.cwd(), 'service-account-key.json');
-const location = 'us-central1';
-
 /**
  * Analyzes a message using Vertex AI and returns a category + structured WhatsApp messages.
  * @param {string} name Customer name.
@@ -13,13 +7,6 @@ const location = 'us-central1';
  */
 export async function analyzeMessage(name, phone, email, message) {
   try {
-    // We keep the client initialization for future Gemini integration, 
-    // but for now we focus on the structuring logic.
-    new ModelServiceClient({
-      keyFilename: keyPath,
-      apiEndpoint: `${location}-aiplatform.googleapis.com`,
-    });
-
     console.log(`Analyzing message from ${name}...`);
     
     // Logic for categorization and structuring
