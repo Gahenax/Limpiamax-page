@@ -179,6 +179,17 @@ export type ServiceData = {
   extras: ExtraData[];
 };
 
+// Optimization: Flattened services and lookup map for O(1) access
+const allServices = [
+  ...servicesData.hogar,
+  ...servicesData.tapiceria,
+  ...servicesData.empresas,
+];
+
+const servicesMap = new Map<string, ServiceData>(
+  allServices.map(service => [service.title, service])
+);
+
 export type Frequency = 'once' | 'weekly' | 'biweekly' | 'monthly';
 
 interface CartContextType {
@@ -293,7 +304,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const findService = (title: string) => {
-    return [...servicesData.hogar, ...servicesData.tapiceria, ...servicesData.empresas].find(s => s.title === title);
+    return servicesMap.get(title);
   };
 
   const calculateTotal = () => {
