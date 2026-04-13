@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { getValidatedAmount } from '@/lib/price-validator';
 
 export async function POST(request: NextRequest) {
   const stripeSecret = process.env.STRIPE_SECRET_KEY;
@@ -23,11 +24,8 @@ export async function POST(request: NextRequest) {
     };
 
     const line_items = items.map((item: { title: string, description?: string, price: string }) => {
-      // Apply the same discount factors as in CartProvider for backend consistency
-      let amount = Math.round(parseFloat(item.price.replace(',', '.')) * 100);
-      if (frequency === 'weekly') amount = Math.round(amount * 0.85);
-      else if (frequency === 'biweekly') amount = Math.round(amount * 0.90);
-      else if (frequency === 'monthly') amount = Math.round(amount * 0.95);
+      // SECURITY: Validar precio contra catálogo server-side (ignora precio del cliente)
+      const amount = getValidatedAmount(item.title, item.price, frequency || 'once');
 
       return {
         price_data: {
