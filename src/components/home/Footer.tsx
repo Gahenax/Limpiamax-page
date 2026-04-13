@@ -41,8 +41,8 @@ export function Footer() {
         <div className="border-t border-border/50 mt-32 pt-12 flex flex-col sm:flex-row justify-between items-center gap-8 text-[11px] font-black uppercase tracking-[0.1em] text-muted-foreground/30">
           <p>© {new Date().getFullYear()} Limpia MAX — Boutique Cleaning Services.</p>
           <div className="flex gap-10">
-            <Link href="#privacidad" className="hover:text-accent transition-colors">Privacidad</Link>
-            <Link href="#terminos" className="hover:text-accent transition-colors">Términos</Link>
+            <Link href="/privacidad" className="hover:text-accent transition-colors">Privacidad</Link>
+            <Link href="/terminos" className="hover:text-accent transition-colors">Términos</Link>
           </div>
         </div>
       </div>

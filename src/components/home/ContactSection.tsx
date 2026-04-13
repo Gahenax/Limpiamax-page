@@ -67,6 +67,9 @@ export function ContactSection() {
                 const formData = new FormData(e.currentTarget);
                 const data = Object.fromEntries(formData);
                 
+                // Anti-bot: si el honeypot tiene valor, es un bot
+                if (data.website) return;
+                
                 try {
                   const res = await fetch('/api/contact', {
                     method: 'POST',
@@ -85,6 +88,13 @@ export function ContactSection() {
                 <div className="absolute -top-6 -right-6 w-20 h-20 bg-accent rounded-full flex items-center justify-center text-white font-black text-xs uppercase tracking-tighter -rotate-12 shadow-xl border-4 border-white">
                   Rápido
                 </div>
+
+              {/* Honeypot anti-bot — Campo invisible para humanos */}
+              <div className="absolute opacity-0 -z-10 h-0 overflow-hidden" aria-hidden="true" tabIndex={-1}>
+                <label htmlFor="website">Website</label>
+                <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
+              </div>
+
               <div className="space-y-3">
                 <label className="text-sm font-black text-primary uppercase tracking-widest ml-1" htmlFor="name">Nombre</label>
                 <input 
@@ -117,6 +127,25 @@ export function ContactSection() {
                   required 
                 />
               </div>
+
+              {/* Checkbox RGPD obligatorio */}
+              <div className="flex items-start gap-3">
+                <input 
+                  type="checkbox" 
+                  id="privacy-consent" 
+                  name="privacyConsent"
+                  required 
+                  className="mt-1.5 h-5 w-5 rounded border-2 border-slate-200 text-accent focus:ring-accent/20 cursor-pointer shrink-0"
+                />
+                <label htmlFor="privacy-consent" className="text-sm text-muted-foreground font-medium leading-relaxed cursor-pointer">
+                  He leído y acepto la{' '}
+                  <a href="/privacidad" target="_blank" rel="noopener noreferrer" className="text-accent font-bold hover:underline">
+                    Política de Privacidad
+                  </a>{' '}
+                  y autorizo el tratamiento de mis datos para gestionar mi solicitud.
+                </label>
+              </div>
+
               <button 
                 type="submit" 
                 className="w-full py-6 flex items-center justify-center gap-3 bg-primary text-white rounded-3xl font-black text-2xl shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] mt-6 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20"

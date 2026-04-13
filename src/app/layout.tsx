@@ -45,12 +45,14 @@ export default function RootLayout({
                 strategy="beforeInteractive"
               />
 
-              {/* Google Tag (gtag.js) - Instalación Manual Requerida */}
+              {/* Google Tag (gtag.js) — Bloqueado por ConsentManager hasta consentimiento */}
               <Script 
-                src="https://www.googletagmanager.com/gtag/js?id=AW-18064056551"
+                type="text/plain"
+                data-cmp-vendor="s26"
+                data-cmp-src="https://www.googletagmanager.com/gtag/js?id=AW-18064056551"
                 strategy="afterInteractive"
               />
-              <Script id="google-analytics" strategy="afterInteractive">
+              <Script id="google-analytics" type="text/plain" data-cmp-vendor="s26" strategy="afterInteractive">
                 {`
                   window.dataLayer = window.dataLayer || [];
                   function gtag(){dataLayer.push(arguments);}
